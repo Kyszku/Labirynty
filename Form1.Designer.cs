@@ -15,123 +15,128 @@
 
         private void InitializeComponent()
         {
-            this.panelGry = new System.Windows.Forms.Panel();
-            this.czasLabel = new System.Windows.Forms.Label();
-            this.startButton = new System.Windows.Forms.Button();
-            this.exitButton = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.poziomMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.latwyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sredniMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.trudnyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            //this.wyjscieMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SuspendLayout();
-
-            // menuStrip1
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.poziomMenuItem });
-            //this.wyjscieMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
-
-            // poziomMenuItem
-            this.poziomMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.latwyMenuItem,
-            this.sredniMenuItem,
-            this.trudnyMenuItem});
-            this.poziomMenuItem.Name = "poziomMenuItem";
-            this.poziomMenuItem.Size = new System.Drawing.Size(58, 20);
-            this.poziomMenuItem.Text = "Poziom";
-
-            // latwyMenuItem
-            this.latwyMenuItem.Name = "latwyMenuItem";
-            this.latwyMenuItem.Size = new System.Drawing.Size(110, 22);
-            this.latwyMenuItem.Text = "Łatwy";
-            this.latwyMenuItem.Click += new System.EventHandler(this.latwyMenuItem_Click);
-
-            // sredniMenuItem
-            this.sredniMenuItem.Name = "sredniMenuItem";
-            this.sredniMenuItem.Size = new System.Drawing.Size(110, 22);
-            this.sredniMenuItem.Text = "Średni";
-            this.sredniMenuItem.Click += new System.EventHandler(this.sredniMenuItem_Click);
-
-            // trudnyMenuItem
-            this.trudnyMenuItem.Name = "trudnyMenuItem";
-            this.trudnyMenuItem.Size = new System.Drawing.Size(110, 22);
-            this.trudnyMenuItem.Text = "Trudny";
-            this.trudnyMenuItem.Click += new System.EventHandler(this.trudnyMenuItem_Click);
-
-            // wyjscieMenuItem
-            //this.wyjscieMenuItem.Name = "wyjscieMenuItem";
-            //this.wyjscieMenuItem.Size = new System.Drawing.Size(58, 20);
-            //this.wyjscieMenuItem.Text = "Wyjście";
-            //this.wyjscieMenuItem.Click += new System.EventHandler(this.exitButton_Click);
             panelGry = new Panel();
             czasLabel = new Label();
             startButton = new Button();
             exitButton = new Button();
+            menuStrip1 = new MenuStrip();
+            poziomMenuItem = new ToolStripMenuItem();
+            latwyMenuItem = new ToolStripMenuItem();
+            sredniMenuItem = new ToolStripMenuItem();
+            trudnyMenuItem = new ToolStripMenuItem();
+            ControlsButton = new Button();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
-
-            // panelGry
-            this.panelGry.Location = new System.Drawing.Point(12, 40);
-            this.panelGry.Name = "panelGry";
-            this.panelGry.Size = new System.Drawing.Size(600, 600);
-            this.panelGry.TabIndex = 0;
-            this.panelGry.Paint += new System.Windows.Forms.PaintEventHandler(this.panelGry_Paint);
-
-            // czasLabel
-            this.czasLabel.AutoSize = true;
-            this.czasLabel.Location = new System.Drawing.Point(630, 60);
-            this.czasLabel.Name = "czasLabel";
-            this.czasLabel.Size = new System.Drawing.Size(120, 20);
-            this.czasLabel.TabIndex = 1;
-            this.czasLabel.Text = "Pozostały czas: 0";
-
-            // startButton
-            this.startButton.Location = new System.Drawing.Point(630, 100);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(100, 50);
-            this.startButton.TabIndex = 2;
-            this.startButton.Text = "Start";
-            this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
-
-            // exitButton
-            this.exitButton.Location = new System.Drawing.Point(630, 160);
-            this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(100, 50);
-            this.exitButton.TabIndex = 3;
-            this.exitButton.Text = "Wyjście";
-            this.exitButton.UseVisualStyleBackColor = true;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
-
-            // Form1
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 650);
-            this.Controls.Add(this.exitButton);
-            this.Controls.Add(this.startButton);
-            this.Controls.Add(this.czasLabel);
-            this.Controls.Add(this.panelGry);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "Labirynty";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
             // 
-            ClientSize = new Size(1008, 681);
+            // panelGry
+            // 
+            panelGry.Location = new Point(10, 30);
+            panelGry.Margin = new Padding(3, 2, 3, 2);
+            panelGry.Name = "panelGry";
+            panelGry.Size = new Size(525, 450);
+            panelGry.TabIndex = 0;
+            panelGry.Paint += panelGry_Paint;
+            // 
+            // czasLabel
+            // 
+            czasLabel.AutoSize = true;
+            czasLabel.Location = new Point(1158, 39);
+            czasLabel.Name = "czasLabel";
+            czasLabel.Size = new Size(94, 15);
+            czasLabel.TabIndex = 1;
+            czasLabel.Text = "Pozostały czas: 0";
+            // 
+            // startButton
+            // 
+            startButton.Location = new Point(1164, 69);
+            startButton.Margin = new Padding(3, 2, 3, 2);
+            startButton.Name = "startButton";
+            startButton.Size = new Size(88, 38);
+            startButton.TabIndex = 2;
+            startButton.Text = "Start";
+            startButton.UseVisualStyleBackColor = true;
+            startButton.Click += startButton_Click;
+            // 
+            // exitButton
+            // 
+            exitButton.Location = new Point(1164, 153);
+            exitButton.Margin = new Padding(3, 2, 3, 2);
+            exitButton.Name = "exitButton";
+            exitButton.Size = new Size(88, 38);
+            exitButton.TabIndex = 3;
+            exitButton.Text = "Wyjście";
+            exitButton.UseVisualStyleBackColor = true;
+            exitButton.Click += exitButton_Click;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { poziomMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Padding = new Padding(5, 2, 0, 2);
+            menuStrip1.Size = new Size(1264, 24);
+            menuStrip1.TabIndex = 4;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // poziomMenuItem
+            // 
+            poziomMenuItem.DropDownItems.AddRange(new ToolStripItem[] { latwyMenuItem, sredniMenuItem, trudnyMenuItem });
+            poziomMenuItem.Name = "poziomMenuItem";
+            poziomMenuItem.Size = new Size(59, 20);
+            poziomMenuItem.Text = "Poziom";
+            // 
+            // latwyMenuItem
+            // 
+            latwyMenuItem.Name = "latwyMenuItem";
+            latwyMenuItem.Size = new Size(110, 22);
+            latwyMenuItem.Text = "Łatwy";
+            latwyMenuItem.Click += latwyMenuItem_Click;
+            // 
+            // sredniMenuItem
+            // 
+            sredniMenuItem.Name = "sredniMenuItem";
+            sredniMenuItem.Size = new Size(110, 22);
+            sredniMenuItem.Text = "Średni";
+            sredniMenuItem.Click += sredniMenuItem_Click;
+            // 
+            // trudnyMenuItem
+            // 
+            trudnyMenuItem.Name = "trudnyMenuItem";
+            trudnyMenuItem.Size = new Size(110, 22);
+            trudnyMenuItem.Text = "Trudny";
+            trudnyMenuItem.Click += trudnyMenuItem_Click;
+            // 
+            // ControlsButton
+            // 
+            ControlsButton.Location = new Point(1164, 111);
+            ControlsButton.Margin = new Padding(3, 2, 3, 2);
+            ControlsButton.Name = "ControlsButton";
+            ControlsButton.Size = new Size(88, 38);
+            ControlsButton.TabIndex = 5;
+            ControlsButton.Text = "Sterowanie";
+            ControlsButton.UseVisualStyleBackColor = true;
+            // 
+            // Form1
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1264, 985);
+            Controls.Add(ControlsButton);
+            Controls.Add(menuStrip1);
             Controls.Add(panelGry);
             Controls.Add(czasLabel);
             Controls.Add(startButton);
             Controls.Add(exitButton);
+            MainMenuStrip = menuStrip1;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Labirynty";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
+
+        private Button ControlsButton;
     }
 }
