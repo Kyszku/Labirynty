@@ -11,6 +11,7 @@
         private System.Windows.Forms.ToolStripMenuItem latwyMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sredniMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trudnyMenuItem;
+        private System.Windows.Forms.Button ControlsButton;
         //private System.Windows.Forms.ToolStripMenuItem wyjscieMenuItem;
 
         private void InitializeComponent()
@@ -136,7 +137,5 @@
             ResumeLayout(false);
             PerformLayout();
         }
-
-        private Button ControlsButton;
     }
 }
