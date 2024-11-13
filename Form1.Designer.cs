@@ -6,7 +6,7 @@
         private System.Windows.Forms.Label czasLabel;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button exitButton;
-        private System.Windows.Forms.Panel PanelMenu;
+        private System.Windows.Forms.Panel PanelMenuMain;
         private System.Windows.Forms.Panel PanelPoziomy;
         private System.Windows.Forms.Button hardLevel;
         private System.Windows.Forms.Button mediumLevel;
@@ -24,7 +24,7 @@
             czasLabel = new Label();
             startButton = new Button();
             exitButton = new Button();
-            PanelMenu = new Panel();
+            PanelMenuMain = new Panel();
             controlsButton = new Button();
             textSterowanie = new Label();
             PanelPoziomy = new Panel();
@@ -35,7 +35,7 @@
             easyLevel = new Button();
             PanelSterowanie = new Panel();
             returnMenu2 = new Button();
-            PanelMenu.SuspendLayout();
+            PanelMenuMain.SuspendLayout();
             PanelPoziomy.SuspendLayout();
             PanelSterowanie.SuspendLayout();
             SuspendLayout();
@@ -81,15 +81,15 @@
             exitButton.UseVisualStyleBackColor = true;
             exitButton.Click += exitButton_Click;
             // 
-            // PanelMenu
+            // PanelMenuMain
             // 
-            PanelMenu.Controls.Add(controlsButton);
-            PanelMenu.Controls.Add(startButton);
-            PanelMenu.Controls.Add(exitButton);
-            PanelMenu.Location = new Point(1132, 57);
-            PanelMenu.Name = "PanelMenu";
-            PanelMenu.Size = new Size(120, 160);
-            PanelMenu.TabIndex = 6;
+            PanelMenuMain.Controls.Add(controlsButton);
+            PanelMenuMain.Controls.Add(startButton);
+            PanelMenuMain.Controls.Add(exitButton);
+            PanelMenuMain.Location = new Point(1132, 57);
+            PanelMenuMain.Name = "PanelMenuMain";
+            PanelMenuMain.Size = new Size(120, 160);
+            PanelMenuMain.TabIndex = 6;
             // 
             // controlsButton
             // 
@@ -202,14 +202,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 985);
             Controls.Add(PanelSterowanie);
-            Controls.Add(PanelMenu);
+            Controls.Add(PanelMenuMain);
             Controls.Add(panelGry);
             Controls.Add(czasLabel);
             Controls.Add(PanelPoziomy);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Labirynty";
-            PanelMenu.ResumeLayout(false);
+            PanelMenuMain.ResumeLayout(false);
             PanelPoziomy.ResumeLayout(false);
             PanelPoziomy.PerformLayout();
             PanelSterowanie.ResumeLayout(false);

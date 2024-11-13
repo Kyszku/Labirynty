@@ -24,7 +24,7 @@ namespace Labirynty
             //timer.Start();
             this.Focus();
             panelGry.Invalidate();  // Odœwie¿ panel, aby narysowaæ nowy labirynt
-            PanelMenu.Hide();
+            PanelMenuMain.Hide();
             PanelPoziomy.Show();
         }
 
@@ -36,8 +36,19 @@ namespace Labirynty
         private void retrunButton_Click(object sender, EventArgs e)
         {
             PanelPoziomy.Hide();
-            PanelMenu.Show();
+            PanelMenuMain.Show();
 
+        }
+
+        private void controlsButton_Click(object sender, EventArgs e)
+        {
+            PanelSterowanie.Show();
+        }
+
+        private void returnMenu2_Click(object sender, EventArgs e)
+        {
+            PanelSterowanie.Hide();
+            PanelMenuMain.Show();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -72,31 +83,35 @@ namespace Labirynty
 
         private void easyLevel_Click(object sender, EventArgs e)
         {
+            panelGry.Hide();
             poziom = Poziom.Latwy;
             MessageBox.Show("Ustawiono poziom: £atwy");
+            panelGry.Show();
+            labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
+            labirynt.GenerujLabirynt();
+            gracz = new Gracz(0, 0);
         }
 
         private void mediumLevel_Click(object sender, EventArgs e)
         {
+            panelGry.Hide();
             poziom = Poziom.Sredni;
             MessageBox.Show("Ustawiono poziom: Œredni");
+            panelGry.Show();
+            labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
+            labirynt.GenerujLabirynt();
+            gracz = new Gracz(0, 0);
         }
 
         private void hardLevel_Click(object sender, EventArgs e)
         {
+            panelGry.Hide();
             poziom = Poziom.Trudny;
             MessageBox.Show("Ustawiono poziom: Trudny");
-        }
-
-        private void controlsButton_Click(object sender, EventArgs e)
-        {
-            PanelSterowanie.Show();
-        }
-
-        private void returnMenu2_Click(object sender, EventArgs e)
-        {
-            PanelSterowanie.Hide();
-            PanelMenu.Show();
+            panelGry.Show();
+            labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
+            labirynt.GenerujLabirynt();
+            gracz = new Gracz(0, 0);
         }
     }
 }
