@@ -6,12 +6,17 @@
         private System.Windows.Forms.Label czasLabel;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button exitButton;
-        private System.Windows.Forms.Button ControlsButton;
         private System.Windows.Forms.Panel PanelMenu;
         private System.Windows.Forms.Panel PanelPoziomy;
         private System.Windows.Forms.Button hardLevel;
         private System.Windows.Forms.Button mediumLevel;
         private System.Windows.Forms.Button easyLevel;
+        private System.Windows.Forms.Label Text_poziomy;
+        private System.Windows.Forms.Button retrunButton;
+        private System.Windows.Forms.Button controlsButton;
+        private System.Windows.Forms.Label textSterowanie;
+        private System.Windows.Forms.Panel PanelSterowanie;
+        private System.Windows.Forms.Button returnMenu2;
 
         private void InitializeComponent()
         {
@@ -20,15 +25,19 @@
             startButton = new Button();
             exitButton = new Button();
             PanelMenu = new Panel();
+            controlsButton = new Button();
+            textSterowanie = new Label();
             PanelPoziomy = new Panel();
             retrunButton = new Button();
-            ControlsButton = new Button();
             Text_poziomy = new Label();
             hardLevel = new Button();
             mediumLevel = new Button();
             easyLevel = new Button();
+            PanelSterowanie = new Panel();
+            returnMenu2 = new Button();
             PanelMenu.SuspendLayout();
             PanelPoziomy.SuspendLayout();
+            PanelSterowanie.SuspendLayout();
             SuspendLayout();
             // 
             // panelGry
@@ -74,12 +83,34 @@
             // 
             // PanelMenu
             // 
+            PanelMenu.Controls.Add(controlsButton);
             PanelMenu.Controls.Add(startButton);
             PanelMenu.Controls.Add(exitButton);
             PanelMenu.Location = new Point(1132, 57);
             PanelMenu.Name = "PanelMenu";
             PanelMenu.Size = new Size(120, 160);
             PanelMenu.TabIndex = 6;
+            // 
+            // controlsButton
+            // 
+            controlsButton.Location = new Point(10, 59);
+            controlsButton.Margin = new Padding(3, 2, 3, 2);
+            controlsButton.Name = "controlsButton";
+            controlsButton.Size = new Size(100, 38);
+            controlsButton.TabIndex = 4;
+            controlsButton.Text = "Sterowanie";
+            controlsButton.UseVisualStyleBackColor = true;
+            controlsButton.Click += controlsButton_Click;
+            // 
+            // textSterowanie
+            // 
+            textSterowanie.AutoSize = true;
+            textSterowanie.Location = new Point(10, 10);
+            textSterowanie.Name = "textSterowanie";
+            textSterowanie.Size = new Size(256, 75);
+            textSterowanie.TabIndex = 5;
+            textSterowanie.Text = "Sterowanie:\r\nStrzałka w góre - Przesunięcie gracza w góre\r\nStrzałka w dół - Przesunięcie gracza w dół\r\nStrzałka w lewo - Przesunięcie gracza w lewo\r\nStrzałka w prawo - Przesunięcie gracza w prawo";
+            textSterowanie.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // PanelPoziomy
             // 
@@ -144,11 +175,33 @@
             easyLevel.UseVisualStyleBackColor = true;
             easyLevel.Click += easyLevel_Click;
             // 
+            // PanelSterowanie
+            // 
+            PanelSterowanie.Controls.Add(returnMenu2);
+            PanelSterowanie.Controls.Add(textSterowanie);
+            PanelSterowanie.Location = new Point(574, 96);
+            PanelSterowanie.Name = "PanelSterowanie";
+            PanelSterowanie.Size = new Size(280, 160);
+            PanelSterowanie.TabIndex = 8;
+            PanelSterowanie.Visible = false;
+            // 
+            // returnMenu2
+            // 
+            returnMenu2.Font = new Font("Segoe UI", 7F);
+            returnMenu2.Location = new Point(90, 110);
+            returnMenu2.Name = "returnMenu2";
+            returnMenu2.Size = new Size(100, 38);
+            returnMenu2.TabIndex = 10;
+            returnMenu2.Text = "Powrót do menu";
+            returnMenu2.UseVisualStyleBackColor = true;
+            returnMenu2.Click += returnMenu2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 985);
+            Controls.Add(PanelSterowanie);
             Controls.Add(PanelMenu);
             Controls.Add(panelGry);
             Controls.Add(czasLabel);
@@ -159,11 +212,10 @@
             PanelMenu.ResumeLayout(false);
             PanelPoziomy.ResumeLayout(false);
             PanelPoziomy.PerformLayout();
+            PanelSterowanie.ResumeLayout(false);
+            PanelSterowanie.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
-
-        private Label Text_poziomy;
-        private Button retrunButton;
     }
 }

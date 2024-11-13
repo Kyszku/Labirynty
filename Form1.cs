@@ -87,5 +87,16 @@ namespace Labirynty
             poziom = Poziom.Trudny;
             MessageBox.Show("Ustawiono poziom: Trudny");
         }
+
+        private void controlsButton_Click(object sender, EventArgs e)
+        {
+            PanelSterowanie.Show();
+        }
+
+        private void returnMenu2_Click(object sender, EventArgs e)
+        {
+            PanelSterowanie.Hide();
+            PanelMenu.Show();
+        }
     }
 }
