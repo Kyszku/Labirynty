@@ -16,16 +16,16 @@ namespace Labirynty
         {
             switch (key)
             {
-                case Keys.Up:
+                case Keys.W:
                     if (Y > 0) Y--;
                     break;
-                case Keys.Down:
+                case Keys.S:
                     if (Y < maxY - 1) Y++;
                     break;
-                case Keys.Left:
+                case Keys.A:
                     if (X > 0) X--;
                     break;
-                case Keys.Right:
+                case Keys.D:
                     if (X < maxX - 1) X++;
                     break;
             }

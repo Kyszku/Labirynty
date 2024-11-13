@@ -107,9 +107,9 @@
             textSterowanie.AutoSize = true;
             textSterowanie.Location = new Point(10, 10);
             textSterowanie.Name = "textSterowanie";
-            textSterowanie.Size = new Size(256, 75);
+            textSterowanie.Size = new Size(176, 75);
             textSterowanie.TabIndex = 5;
-            textSterowanie.Text = "Sterowanie:\r\nStrzałka w góre - Przesunięcie gracza w góre\r\nStrzałka w dół - Przesunięcie gracza w dół\r\nStrzałka w lewo - Przesunięcie gracza w lewo\r\nStrzałka w prawo - Przesunięcie gracza w prawo";
+            textSterowanie.Text = "Sterowanie:\r\nW - Przesunięcie gracza w góre\r\nS - Przesunięcie gracza w dół\r\nA - Przesunięcie gracza w lewo\r\nD - Przesunięcie gracza w prawo";
             textSterowanie.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // PanelPoziomy
