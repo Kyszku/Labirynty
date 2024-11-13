@@ -105,7 +105,7 @@
             // textSterowanie
             // 
             textSterowanie.AutoSize = true;
-            textSterowanie.Location = new Point(10, 10);
+            textSterowanie.Location = new Point(14, 9);
             textSterowanie.Name = "textSterowanie";
             textSterowanie.Size = new Size(176, 75);
             textSterowanie.TabIndex = 5;
@@ -179,7 +179,7 @@
             // 
             PanelSterowanie.Controls.Add(returnMenu2);
             PanelSterowanie.Controls.Add(textSterowanie);
-            PanelSterowanie.Location = new Point(574, 96);
+            PanelSterowanie.Location = new Point(570, 120);
             PanelSterowanie.Name = "PanelSterowanie";
             PanelSterowanie.Size = new Size(280, 160);
             PanelSterowanie.TabIndex = 8;
