@@ -16,37 +16,28 @@ namespace Labirynty
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
-            labirynt.GenerujLabirynt();
-            gracz = new Gracz(0, 0);  // Ustawienie gracza na startow¹ pozycjê
+            //labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
+            //labirynt.GenerujLabirynt();
+            //gracz = new Gracz(0, 0);  // Ustawienie gracza na startow¹ pozycjê
             //pozosta³yCzas = poziom.Czas;
             //czasLabel.Text = $"Pozosta³y czas: {pozosta³yCzas} s";
             //timer.Start();
             this.Focus();
             panelGry.Invalidate();  // Odœwie¿ panel, aby narysowaæ nowy labirynt
-        }
-
-        private void latwyMenuItem_Click(object sender, EventArgs e)
-        {
-            poziom = Poziom.Latwy;
-            MessageBox.Show("Ustawiono poziom: £atwy");
-        }
-
-        private void sredniMenuItem_Click(object sender, EventArgs e)
-        {
-            poziom = Poziom.Sredni;
-            MessageBox.Show("Ustawiono poziom: Œredni");
-        }
-
-        private void trudnyMenuItem_Click(object sender, EventArgs e)
-        {
-            poziom = Poziom.Trudny;
-            MessageBox.Show("Ustawiono poziom: Trudny");
+            PanelMenu.Hide();
+            PanelPoziomy.Show();
         }
 
         private void exitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void retrunButton_Click(object sender, EventArgs e)
+        {
+            PanelPoziomy.Hide();
+            PanelMenu.Show();
+
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -77,6 +68,24 @@ namespace Labirynty
                 // Rysowanie gracza
                 e.Graphics.FillRectangle(Brushes.Blue, gracz.X * szerokoscKomorki, gracz.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
             }
+        }
+
+        private void easyLevel_Click(object sender, EventArgs e)
+        {
+            poziom = Poziom.Latwy;
+            MessageBox.Show("Ustawiono poziom: £atwy");
+        }
+
+        private void mediumLevel_Click(object sender, EventArgs e)
+        {
+            poziom = Poziom.Sredni;
+            MessageBox.Show("Ustawiono poziom: Œredni");
+        }
+
+        private void hardLevel_Click(object sender, EventArgs e)
+        {
+            poziom = Poziom.Trudny;
+            MessageBox.Show("Ustawiono poziom: Trudny");
         }
     }
 }
