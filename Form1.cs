@@ -83,6 +83,7 @@ namespace Labirynty
 
         private void easyLevel_Click(object sender, EventArgs e)
         {
+            text_poziom_Label.Hide();
             panelGry.Hide();
             poziom = Poziom.Latwy;
             MessageBox.Show("Ustawiono poziom: £atwy");
@@ -90,10 +91,13 @@ namespace Labirynty
             labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
             labirynt.GenerujLabirynt();
             gracz = new Gracz(0, 0);
+            text_poziom_Label.Show();
+            text_poziom_Label.Text = "Poziom: £atwy";
         }
 
         private void mediumLevel_Click(object sender, EventArgs e)
         {
+            text_poziom_Label.Hide();
             panelGry.Hide();
             poziom = Poziom.Sredni;
             MessageBox.Show("Ustawiono poziom: Œredni");
@@ -101,10 +105,13 @@ namespace Labirynty
             labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
             labirynt.GenerujLabirynt();
             gracz = new Gracz(0, 0);
+            text_poziom_Label.Show();
+            text_poziom_Label.Text = "Poziom: Œredni";
         }
 
         private void hardLevel_Click(object sender, EventArgs e)
         {
+            text_poziom_Label.Hide();
             panelGry.Hide();
             poziom = Poziom.Trudny;
             MessageBox.Show("Ustawiono poziom: Trudny");
@@ -112,6 +119,8 @@ namespace Labirynty
             labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
             labirynt.GenerujLabirynt();
             gracz = new Gracz(0, 0);
+            text_poziom_Label.Show();
+            text_poziom_Label.Text = "Poziom: Trudny";
         }
     }
 }

@@ -35,6 +35,7 @@
             easyLevel = new Button();
             PanelSterowanie = new Panel();
             returnMenu2 = new Button();
+            text_poziom_Label = new Label();
             PanelMenuMain.SuspendLayout();
             PanelPoziomy.SuspendLayout();
             PanelSterowanie.SuspendLayout();
@@ -42,7 +43,7 @@
             // 
             // panelGry
             // 
-            panelGry.Location = new Point(10, 30);
+            panelGry.Location = new Point(10, 40);
             panelGry.Margin = new Padding(3, 2, 3, 2);
             panelGry.Name = "panelGry";
             panelGry.Size = new Size(525, 450);
@@ -53,11 +54,12 @@
             // czasLabel
             // 
             czasLabel.AutoSize = true;
-            czasLabel.Location = new Point(1142, 39);
+            czasLabel.Location = new Point(441, 23);
             czasLabel.Name = "czasLabel";
             czasLabel.Size = new Size(94, 15);
             czasLabel.TabIndex = 1;
             czasLabel.Text = "Pozostały czas: 0";
+            czasLabel.Visible = false;
             // 
             // startButton
             // 
@@ -196,11 +198,22 @@
             returnMenu2.UseVisualStyleBackColor = true;
             returnMenu2.Click += returnMenu2_Click;
             // 
+            // text_poziom_Label
+            // 
+            text_poziom_Label.AutoSize = true;
+            text_poziom_Label.Location = new Point(12, 23);
+            text_poziom_Label.Name = "text_poziom_Label";
+            text_poziom_Label.Size = new Size(77, 15);
+            text_poziom_Label.TabIndex = 9;
+            text_poziom_Label.Text = "Dany poziom";
+            text_poziom_Label.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 985);
+            Controls.Add(text_poziom_Label);
             Controls.Add(PanelSterowanie);
             Controls.Add(PanelMenuMain);
             Controls.Add(panelGry);
@@ -217,5 +230,7 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
+        private Label text_poziom_Label;
     }
 }
