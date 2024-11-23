@@ -1,29 +1,56 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
 
 namespace Labirynty
 {
     public partial class Form1 : Form
     {
-        private Poziom poziom = Poziom.Latwy;
-        private Labirynt labirynt;
-        private Gracz gracz;
+        private Labirynt labirynt; // Przechowywanie labiryntu
+        private Poziom poziom = Poziom.Latwy; // Aktualny poziom trudnoÅ›ci
+        private Gracz gracz;   // Obiekt reprezentujÄ…cy gracza
+        private int szerokosc; // SzerokoÅ›Ä‡ labiryntu
+        private int wysokosc;  // WysokoÅ›Ä‡ labiryntu
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        private void UstawPoziom(Poziom poziom)
+        {
+            this.poziom = poziom;
+            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
+            labirynt.GenerujLabirynt(poziom.Macierz);
+            WyswietlLabirynt();
+        }
+
+        private void WyswietlLabirynt()
+        {
+            if (labirynt == null) return;
+
+            var siatka = labirynt.Siatka;
+            string wynik = "";
+            for (int y = 0; y < siatka.GetLength(1); y++)
+            {
+                for (int x = 0; x < siatka.GetLength(0); x++)
+                {
+                    wynik += siatka[x, y] == 0 ? " " : "#";
+                }
+                wynik += Environment.NewLine;
+            }
+
+        }
+        
         private void startButton_Click(object sender, EventArgs e)
         {
             //labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
             //labirynt.GenerujLabirynt();
-            //gracz = new Gracz(0, 0);  // Ustawienie gracza na startow¹ pozycjê
-            //pozosta³yCzas = poziom.Czas;
-            //czasLabel.Text = $"Pozosta³y czas: {pozosta³yCzas} s";
+            //gracz = new Gracz(0, 0);  // Ustawienie gracza na startowÄ… pozycjÄ™
+            //pozostaÅ‚yCzas = poziom.Czas;
+            //czasLabel.Text = $"PozostaÅ‚y czas: {pozostaÅ‚yCzas} s";
             //timer.Start();
             this.Focus();
-            panelGry.Invalidate();  // Odœwie¿ panel, aby narysowaæ nowy labirynt
+            panelGry.Invalidate();  // OdÅ›wieÅ¼ panel, aby narysowaÄ‡ nowy labirynt
             PanelMenuMain.Hide();
             PanelPoziomy.Show();
         }
@@ -50,77 +77,117 @@ namespace Labirynty
             PanelSterowanie.Hide();
             PanelMenuMain.Show();
         }
+        public bool CzyMoznaRuszac(int x, int y, Keys key)
+        {
+            switch (key)
+            {
+                case Keys.W:
+                    if (y > 0 && labirynt.Siatka[x, y - 1] == 0) // Sprawdzamy w gÃ³rÄ™
+                        return true;
+                    break;
 
+                case Keys.S:
+                    if (y < labirynt.Wysokosc - 1 && labirynt.Siatka[x, y + 1] == 0) // Sprawdzamy w dÃ³Å‚
+                        return true;
+                    break;
+
+                case Keys.A:
+                    if (x > 0 && labirynt.Siatka[x - 1, y] == 0) // Sprawdzamy w lewo
+                        return true;
+                    break;
+
+                case Keys.D:
+                    if (x < labirynt.Szerokosc - 1 && labirynt.Siatka[x + 1, y] == 0) // Sprawdzamy w prawo
+                        return true;
+                    break;
+            }
+            return false; // Zwracamy false, jeÅ›li nie ma drogi
+        }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             // Sprawdzenie, czy obiekt gracz jest zainicjalizowany
             if (gracz != null)
             {
-                // Wywo³anie metody przesuniêcia gracza na podstawie wciœniêtego klawisza
-                gracz.Przesun(keyData, poziom.Rozmiar, poziom.Rozmiar);
+                if (CzyMoznaRuszac(gracz.X, gracz.Y, keyData))
+                {
+                    // Wywolanie metody przesuniecie gracza na podstawie wcisnietego klawisza
+                    gracz.Rusz(keyData, poziom.Szerokosc, poziom.Wysokosc);
 
-                // Odœwie¿ panel, aby zaktualizowaæ pozycjê gracza
-                panelGry.Invalidate();
+                    // Odswieza panel, aby zaktualizowaÃ¦ pozycje gracza
+                    panelGry.Invalidate();
+                }
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
 
+
         private void panelGry_Paint(object sender, PaintEventArgs e)
         {
-            if (labirynt != null)
+            if (labirynt != null && poziom != null)
             {
-                int szerokoscKomorki = panelGry.Width / poziom.Rozmiar;
-                int wysokoscKomorki = panelGry.Height / poziom.Rozmiar;
+                int szerokoscKomorki = panelGry.Width / poziom.Szerokosc;
+                int wysokoscKomorki = panelGry.Height / poziom.Wysokosc;
 
+                // WywoÅ‚anie metody rysujÄ…cej labirynt
                 labirynt.RysujLabirynt(e.Graphics, szerokoscKomorki, wysokoscKomorki);
 
                 // Rysowanie gracza
-                e.Graphics.FillRectangle(Brushes.Blue, gracz.X * szerokoscKomorki, gracz.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
+                if (gracz != null)
+                {
+                    e.Graphics.FillRectangle(Brushes.Blue, gracz.X * szerokoscKomorki, gracz.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
+                }
             }
         }
 
+
         private void easyLevel_Click(object sender, EventArgs e)
         {
+            UstawPoziom(Poziom.Latwy);
             text_poziom_Label.Hide();
             panelGry.Hide();
-            poziom = Poziom.Latwy;
-            MessageBox.Show("Ustawiono poziom: £atwy");
+            //poziom = Poziom.Latwy;
+            MessageBox.Show("Ustawiono poziom: Åatwy");
             panelGry.Show();
-            labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
-            labirynt.GenerujLabirynt();
+            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
+            labirynt.GenerujLabirynt(poziom.Macierz);
             gracz = new Gracz(0, 0);
             text_poziom_Label.Show();
-            text_poziom_Label.Text = "Poziom: £atwy";
+            text_poziom_Label.Text = "Poziom: Åatwy";
+            panelGry.Invalidate();
         }
 
         private void mediumLevel_Click(object sender, EventArgs e)
         {
+            UstawPoziom(Poziom.Sredni);
             text_poziom_Label.Hide();
             panelGry.Hide();
-            poziom = Poziom.Sredni;
-            MessageBox.Show("Ustawiono poziom: Œredni");
+            //poziom = Poziom.Sredni;
+            MessageBox.Show("Ustawiono poziom: Åšredni");
             panelGry.Show();
-            labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
-            labirynt.GenerujLabirynt();
+            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
+            labirynt.GenerujLabirynt(poziom.Macierz);
             gracz = new Gracz(0, 0);
             text_poziom_Label.Show();
-            text_poziom_Label.Text = "Poziom: Œredni";
+            text_poziom_Label.Text = "Poziom: Åšredni";
+            panelGry.Invalidate();
         }
 
         private void hardLevel_Click(object sender, EventArgs e)
         {
+            UstawPoziom(Poziom.Trudny);
             text_poziom_Label.Hide();
             panelGry.Hide();
-            poziom = Poziom.Trudny;
+            //poziom = Poziom.Trudny;
             MessageBox.Show("Ustawiono poziom: Trudny");
             panelGry.Show();
-            labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
-            labirynt.GenerujLabirynt();
+            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
+            labirynt.GenerujLabirynt(poziom.Macierz);
             gracz = new Gracz(0, 0);
             text_poziom_Label.Show();
             text_poziom_Label.Text = "Poziom: Trudny";
+            panelGry.Invalidate();
         }
     }
 }

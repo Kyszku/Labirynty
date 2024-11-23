@@ -17,6 +17,7 @@
         private System.Windows.Forms.Label textSterowanie;
         private System.Windows.Forms.Panel PanelSterowanie;
         private System.Windows.Forms.Button returnMenu2;
+        private System.Windows.Forms.Label text_poziom_Label;
 
         private void InitializeComponent()
         {
@@ -230,7 +231,5 @@
             ResumeLayout(false);
             PerformLayout();
         }
-
-        private Label text_poziom_Label;
     }
 }

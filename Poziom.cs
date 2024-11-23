@@ -2,17 +2,45 @@
 {
     public class Poziom
     {
-        public int Rozmiar { get; set; }
-        public int Czas { get; set; }
-
-        public Poziom(int rozmiar, int czas)
+        // Łatwy poziom - mała macierz z małą liczbą ścian
+        public static Poziom Latwy = new Poziom(new int[,]
         {
-            Rozmiar = rozmiar;
-            Czas = czas;
-        }
+        {0, 1, 0, 0, 0},
+        {0, 1, 0, 1, 0},
+        {0, 0, 0, 1, 0},
+        {1, 1, 0, 0, 0},
+        {0, 0, 0, 1, 0}
+        });
 
-        public static Poziom Latwy => new Poziom(10, 60);    // Labirynt 10x10, czas 60 sekund
-        public static Poziom Sredni => new Poziom(15, 45);   // Labirynt 15x15, czas 45 sekund
-        public static Poziom Trudny => new Poziom(20, 30);   // Labirynt 20x20, czas 30 sekund
+        // Średni poziom - średnia macierz z większą ilością ścian
+        public static Poziom Sredni = new Poziom(new int[,]
+        {
+        {0, 1, 0, 1, 0, 0},
+        {0, 1, 0, 1, 0, 1},
+        {0, 1, 0, 0, 0, 0},
+        {1, 0, 1, 0, 1, 0},
+        {0, 0, 0, 0, 1, 0},
+        {0, 1, 1, 0, 0, 0}
+        });
+
+        // Trudny poziom - duża macierz z wieloma ścianami
+        public static Poziom Trudny = new Poziom(new int[,]
+        {
+        {0, 1, 1, 1, 1, 1, 0},
+        {0, 0, 0, 1, 0, 1, 0},
+        {1, 1, 0, 0, 0, 1, 0},
+        {1, 1, 0, 1, 1, 0, 0},
+        {0, 0, 0, 1, 0, 1, 0},
+        {1, 0, 1, 1, 0, 1, 0},
+        {0, 0, 0, 0, 1, 0, 0}
+        });
+
+        public int[,] Macierz {get; set; }
+        public Poziom(int[,] macierzpoziomu)
+        {
+            Macierz = macierzpoziomu;
+        }
+        public int Szerokosc => Macierz.GetLength(0);
+        public int Wysokosc => Macierz.GetLength(1);
     }
 }
