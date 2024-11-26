@@ -1,7 +1,5 @@
-﻿namespace Labirynty
-{
-    partial class Form1
-    {
+﻿namespace Labirynty{
+    partial class Form1{
         private System.Windows.Forms.Panel panelGry;
         private System.Windows.Forms.Label czasLabel;
         private System.Windows.Forms.Button startButton;
@@ -216,10 +214,10 @@
             ClientSize = new Size(1264, 985);
             Controls.Add(text_poziom_Label);
             Controls.Add(PanelSterowanie);
-            Controls.Add(PanelMenuMain);
             Controls.Add(panelGry);
             Controls.Add(czasLabel);
             Controls.Add(PanelPoziomy);
+            Controls.Add(PanelMenuMain);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Labirynty";
