@@ -1,10 +1,11 @@
 ﻿namespace Labirynty{
-
     public class Poziom{
         public int[,] Macierz { get; set; } // Macierz definiująca poziom
         public (int X, int Y) Start { get; set; } // Punkt startowy
         public (int X, int Y) End { get; set; } // Punkt końcowy
-        public List<(int X, int Y)> Checkpoints { get; set; } // Lista punktów kontrolnych
+        public List<(int X, int Y)> Checkpoints { get; private set; } // Lista punktów kontrolnych
+        private readonly List<(int X, int Y)> DomyslneCheckpoints; // Lista oryginalna
+
         /*
         0,1,2,3,4,5...n
         1
@@ -60,12 +61,16 @@
             end: (3, 3),
             checkpoints: (new List<(int X, int Y)> { (2, 2) })
         );
-        //public int[,] Macierz {get; set; }
         public Poziom(int[,] macierzpoziomu, (int X, int Y) start, (int X, int Y) end, List<(int X, int Y)> checkpoints){
             Macierz = macierzpoziomu;
             Start = start;
             End = end;
-            Checkpoints = checkpoints ?? new List<(int X, int Y)>();
+            DomyslneCheckpoints = checkpoints ?? new List<(int X, int Y)>();
+            PrzywrocCheckpointy();
+        }
+        // Przywraca checkpointy do stanu domyślnego
+        public void PrzywrocCheckpointy(){
+            Checkpoints = new List<(int X, int Y)>(DomyslneCheckpoints);
         }
         public int Szerokosc => Macierz.GetLength(0);
         public int Wysokosc => Macierz.GetLength(1);

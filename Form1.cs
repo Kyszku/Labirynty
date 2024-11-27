@@ -15,30 +15,13 @@ namespace Labirynty{
 
         private void UstawPoziom(Poziom poziom){
             this.poziom = poziom;
+            poziom.PrzywrocCheckpointy(); // Przywrócenie checkpointów
             labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
             labirynt.GenerujLabirynt(poziom.Macierz);
-            WyswietlLabirynt();
+            gracz = new Gracz(poziom.Start.X, poziom.Start.Y);
         }
-
-        private void WyswietlLabirynt(){
-            if (labirynt == null) return;
-            var siatka = labirynt.Siatka;
-            string wynik = "";
-            for (int y = 0; y < siatka.GetLength(1); y++){
-                for (int x = 0; x < siatka.GetLength(0); x++){
-                    wynik += siatka[x, y] == 0 ? " " : "#";
-                }
-                wynik += Environment.NewLine;
-            }
-        }
-        
+    
         private void startButton_Click(object sender, EventArgs e){
-            //labirynt = new Labirynt(poziom.Rozmiar, poziom.Rozmiar);
-            //labirynt.GenerujLabirynt();
-            //gracz = new Gracz(0, 0);  // Ustawienie gracza na startową pozycję
-            //pozostałyCzas = poziom.Czas;
-            //czasLabel.Text = $"Pozostały czas: {pozostałyCzas} s";
-            //timer.Start();
             this.Focus();
             panelGry.Invalidate();  // Odśwież panel, aby narysować nowy labirynt
             PanelMenuMain.Hide();
@@ -86,12 +69,92 @@ namespace Labirynty{
             }
             return false; // Zwracamy false, jeśli nie ma drogi
         }
+        private void CzyWszedlWCheckpoint(){
+            // Sprawdzamy, czy gracz jest na pozycji któregoś z checkpointów
+            var checkpoint = poziom.Checkpoints.Find(cp => cp.X == gracz.X && cp.Y == gracz.Y);
+            // Jeśli gracz trafił na checkpoint
+            if (checkpoint != default){
+                poziom.Checkpoints.Remove(checkpoint); // Usuń checkpoint, aby nie wyświetlać ponownie zadania
+                WyswietlZadanieMatematyczne(); // Wyświetl pytanie matematyczne
+            }
+        }
+
+        private void WyswietlZadanieMatematyczne(){
+            Random random = new Random();
+            bool jestPoprawnaOdpowiedz = false;
+            while (!jestPoprawnaOdpowiedz)
+            {
+                string pytanie = "";
+                double poprawnaOdpowiedz = 0;
+
+                if (poziom == Poziom.Latwy)
+                {
+                    int a = random.Next(1, 20);
+                    int b = random.Next(1, 20);
+                    if (random.Next(2) == 0)
+                    {
+                        pytanie = $"{a} + {b} = ?";
+                        poprawnaOdpowiedz = a + b;
+                    }
+                    else
+                    {
+                        pytanie = $"{a} - {b} = ?";
+                        poprawnaOdpowiedz = a - b;
+                    }
+                }
+                else if (poziom == Poziom.Sredni)
+                {
+                    int a = random.Next(1, 10);
+                    int b = random.Next(1, 10);
+                    if (random.Next(2) == 0)
+                    {
+                        pytanie = $"{a} * {b} = ?";
+                        poprawnaOdpowiedz = a * b;
+                    }
+                    else
+                    {
+                        pytanie = $"{a} / {b} = ?";
+                        poprawnaOdpowiedz = Math.Round((double)a / b, 2);
+                    }
+                }
+                else if (poziom == Poziom.Trudny)
+                {
+                    int a = random.Next(1, 10);
+                    if (random.Next(2) == 0)
+                    {
+                        pytanie = $"{a}^2 = ?";
+                        poprawnaOdpowiedz = Math.Pow(a, 2);
+                    }
+                    else
+                    {
+                        int b = a * a;
+                        pytanie = $"√{b} = ?";
+                        poprawnaOdpowiedz = Math.Sqrt(b);
+                    }
+                }
+                // Wyświetlanie pytania i pobieranie odpowiedzi
+                string odpowiedz = Microsoft.VisualBasic.Interaction.InputBox(pytanie, "Zadanie Matematyczne", "");
+
+                // Sprawdzanie odpowiedzi
+                if (double.TryParse(odpowiedz, out double wynik) && Math.Abs(wynik - poprawnaOdpowiedz) < 0.01){
+                    MessageBox.Show("Poprawna odpowiedź! Możesz kontynuować.", "Sukces");
+                    jestPoprawnaOdpowiedz = true;
+                }
+                else{
+                    MessageBox.Show($"Błędna odpowiedź. Prawidłowy wynik to: {poprawnaOdpowiedz}.", "Błąd");
+                }
+            }
+        }
+
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData){
             // Sprawdzenie, czy obiekt gracz jest zainicjalizowany
             if (gracz != null){
                 if (CzyMoznaRuszac(gracz.X, gracz.Y, keyData)){
                     // Wywolanie metody przesuniecie gracza na podstawie wcisnietego klawisza
                     gracz.Rusz(keyData, poziom.Szerokosc, poziom.Wysokosc);
+                    // Sprawdzamy, czy gracz wszedł w checkpoint
+                    CzyWszedlWCheckpoint();
                     // Odswieza panel, aby zaktualizowaæ pozycje gracza
                     panelGry.Invalidate();
                 }
@@ -117,12 +180,8 @@ namespace Labirynty{
             UstawPoziom(Poziom.Latwy);
             text_poziom_Label.Hide();
             panelGry.Hide();
-            //poziom = Poziom.Latwy;
             MessageBox.Show("Ustawiono poziom: Łatwy");
             panelGry.Show();
-            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
-            labirynt.GenerujLabirynt(poziom.Macierz);
-            gracz = new Gracz(0, 0);
             text_poziom_Label.Show();
             text_poziom_Label.Text = "Poziom: Łatwy";
             panelGry.Invalidate();
@@ -131,13 +190,9 @@ namespace Labirynty{
         private void mediumLevel_Click(object sender, EventArgs e){
             UstawPoziom(Poziom.Sredni);
             text_poziom_Label.Hide();
-            panelGry.Hide();
-            //poziom = Poziom.Sredni;
+            panelGry.Hide(); 
             MessageBox.Show("Ustawiono poziom: Średni");
             panelGry.Show();
-            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
-            labirynt.GenerujLabirynt(poziom.Macierz);
-            gracz = new Gracz(0, 0);
             text_poziom_Label.Show();
             text_poziom_Label.Text = "Poziom: Średni";
             panelGry.Invalidate();
@@ -147,12 +202,8 @@ namespace Labirynty{
             UstawPoziom(Poziom.Trudny);
             text_poziom_Label.Hide();
             panelGry.Hide();
-            //poziom = Poziom.Trudny;
             MessageBox.Show("Ustawiono poziom: Trudny");
             panelGry.Show();
-            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
-            labirynt.GenerujLabirynt(poziom.Macierz);
-            gracz = new Gracz(0, 0);
             text_poziom_Label.Show();
             text_poziom_Label.Text = "Poziom: Trudny";
             panelGry.Invalidate();
