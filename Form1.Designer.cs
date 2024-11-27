@@ -17,8 +17,12 @@
         private System.Windows.Forms.Button returnMenu2;
         private System.Windows.Forms.Label text_poziom_Label;
 
+        private System.Windows.Forms.Timer timerLevel;
+        private System.ComponentModel.IContainer components;
+
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             panelGry = new Panel();
             czasLabel = new Label();
             startButton = new Button();
@@ -35,6 +39,7 @@
             PanelSterowanie = new Panel();
             returnMenu2 = new Button();
             text_poziom_Label = new Label();
+            timerLevel = new System.Windows.Forms.Timer(components);
             PanelMenuMain.SuspendLayout();
             PanelPoziomy.SuspendLayout();
             PanelSterowanie.SuspendLayout();
@@ -207,6 +212,10 @@
             text_poziom_Label.Text = "Dany poziom";
             text_poziom_Label.Visible = false;
             // 
+            // timerLevel
+            // 
+            timerLevel.Tick += timerLevel_Tick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -229,5 +238,6 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
     }
 }

@@ -5,6 +5,7 @@
         public (int X, int Y) End { get; set; } // Punkt końcowy
         public List<(int X, int Y)> Checkpoints { get; private set; } // Lista punktów kontrolnych
         private readonly List<(int X, int Y)> DomyslneCheckpoints; // Lista oryginalna
+        public int TimeLevel { get; private set; } // Czas w sekundach
 
         /*
         0,1,2,3,4,5...n
@@ -28,6 +29,7 @@
         },
             start: (0,0),
             end:(3,3),
+            timeLevel: 10,
             checkpoints:( new List<(int X, int Y)> {(2, 2)})            
         );
 
@@ -43,6 +45,7 @@
         },
             start: (1, 1),
             end: (3, 3),
+            timeLevel: 10,
             checkpoints: (new List<(int X, int Y)> { (2, 2) })
         );
 
@@ -59,12 +62,14 @@
         },
             start: (1, 1),
             end: (3, 3),
+            timeLevel: 10,
             checkpoints: (new List<(int X, int Y)> { (2, 2) })
         );
-        public Poziom(int[,] macierzpoziomu, (int X, int Y) start, (int X, int Y) end, List<(int X, int Y)> checkpoints){
+        public Poziom(int[,] macierzpoziomu, (int X, int Y) start, (int X, int Y) end, int timeLevel, List<(int X, int Y)> checkpoints){
             Macierz = macierzpoziomu;
             Start = start;
             End = end;
+            TimeLevel = timeLevel;
             DomyslneCheckpoints = checkpoints ?? new List<(int X, int Y)>();
             PrzywrocCheckpointy();
         }
