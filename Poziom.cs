@@ -11,6 +11,7 @@
         private readonly Dictionary<(int X, int Y), bool> DomyslneCheckpoints; // Domyślne checkpointy
 
         public int TimeLevel { get; private set; } // Czas w sekundach
+        public int TimeShow { get; private set; } //
 
         /*
         0,1,2,3,4,5...n
@@ -35,6 +36,7 @@
             start: (0,0),
             end:(3,3),
             timeLevel: 10,
+            timeShow: 10,
             checkpoints: new List<(int X, int Y)> {(2, 2)}           
         );
 
@@ -51,6 +53,7 @@
             start: (1, 1),
             end: (3, 3),
             timeLevel: 10,
+            timeShow: 10,
             checkpoints: new List<(int X, int Y)> { (2, 2) }
         );
 
@@ -68,13 +71,15 @@
             start: (1, 1),
             end: (3, 3),
             timeLevel: 10,
+            timeShow: 10,
             checkpoints: new List<(int X, int Y)> { (2, 2) }
         );
-        public Poziom(int[,] macierzpoziomu, (int X, int Y) start, (int X, int Y) end, int timeLevel, List<(int X, int Y)> checkpoints){
+        public Poziom(int[,] macierzpoziomu, (int X, int Y) start, (int X, int Y) end, int timeLevel, int timeShow, List<(int X, int Y)> checkpoints){
             Macierz = macierzpoziomu;
             Start = start;
             End = end;
             TimeLevel = timeLevel;
+            TimeShow = timeShow;
             DomyslneCheckpoints = checkpoints.ToDictionary(cp => cp, cp => false); /*?? new List<(int X, int Y)>();*/
             PrzywrocCheckpointy();
         }

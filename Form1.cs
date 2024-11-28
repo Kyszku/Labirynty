@@ -8,9 +8,9 @@ namespace Labirynty{
         private Poziom poziom = Poziom.Latwy; // Aktualny poziom trudności
         private Gracz gracz;   // Obiekt reprezentujący gracza
         private int szerokosc; // Szerokość labiryntu
-        private int wysokosc;  // Wysokość labiryntu
-        //private System.Windows.Forms.Timer timer;
+        private int wysokosc;  // Wysokość labiryntu;
         private int pozostalyCzas; // Liczba sekund pozostałych na dany poziom
+        private int czasPrezentacji;
         private double wynikPoprawny;
         public Form1()
         {
@@ -25,21 +25,31 @@ namespace Labirynty{
                 timerLevel.Dispose();
             }
 
+            if (timerShow != null)
+            {
+                timerShow.Stop();
+                timerShow.Dispose();
+            }
+
             this.poziom = poziom;
             poziom.PrzywrocCheckpointy(); // Przywrócenie checkpointów
             labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
             labirynt.GenerujLabirynt(poziom.Macierz);
             gracz = new Gracz(poziom.Start.X, poziom.Start.Y);
-            //Ustawienie czasu
-            pozostalyCzas = poziom.TimeLevel;
-            czasLabel.Text = $"Pozostały czas: {pozostalyCzas}s";
-            // Inicjalizacja timera
-            timerLevel = new System.Windows.Forms.Timer();
-            timerLevel.Interval = 1000;
-            timerLevel.Tick += timerLevel_Tick;
-            timerLevel.Start();
-            text_poziom_Label.Text = $"Poziom: {poziom}";
-            panelGry.Invalidate();
+
+            // Wyświetlenie labiryntu dla gracza przez 30 sekund
+            czasPrezentacji = poziom.TimeShow;
+            czasLabel.Text = $"Czas na zapamiętanie: {czasPrezentacji}s";
+            panelGry.Invalidate(); // Rysowanie labiryntu
+
+            // Ustawienie timera prezentacji
+            timerShow = new System.Windows.Forms.Timer();
+            timerShow.Interval = 1000; // 1 sekunda
+            timerShow.Tick += timerShow_Tick;
+            timerShow.Start();
+
+            // Ukrycie gracza na czas prezentacji
+            gracz = null;
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -97,7 +107,7 @@ namespace Labirynty{
             }
             return false; // Zwracamy false, jeśli nie ma drogi
         }
-        
+
         private void CzyWszedlWCheckpoint()
         {
             if (poziom.Checkpoints.ContainsKey((gracz.X, gracz.Y)) && !poziom.Checkpoints[(gracz.X, gracz.Y)])
@@ -247,7 +257,7 @@ namespace Labirynty{
             UstawPoziom(Poziom.Latwy);
             text_poziom_Label.Hide();
             panelGry.Hide();
-            MessageBox.Show("Ustawiono poziom: Łatwy");
+            MessageBox.Show("Ustawiono poziom: Łatwy\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             panelGry.Show();
             text_poziom_Label.Show();
             czasLabel.Show();
@@ -259,7 +269,7 @@ namespace Labirynty{
             UstawPoziom(Poziom.Sredni);
             text_poziom_Label.Hide();
             panelGry.Hide();
-            MessageBox.Show("Ustawiono poziom: Średni");
+            MessageBox.Show("Ustawiono poziom: Średni\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             panelGry.Show();
             text_poziom_Label.Show();
             czasLabel.Show();
@@ -271,7 +281,7 @@ namespace Labirynty{
             UstawPoziom(Poziom.Trudny);
             text_poziom_Label.Hide();
             panelGry.Hide();
-            MessageBox.Show("Ustawiono poziom: Trudny");
+            MessageBox.Show("Ustawiono poziom: Trudny\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             panelGry.Show();
             text_poziom_Label.Show();
             czasLabel.Show();
@@ -302,6 +312,31 @@ namespace Labirynty{
             //timerLevel.Stop(); // Zatrzymujemy licznik czasu
             poziom.PrzywrocCheckpointy();
             UstawPoziom(poziom); // Przywracamy aktualny poziom do stanu początkowego
+        }
+
+        private void timerShow_Tick(object sender, EventArgs e)
+        {
+            czasPrezentacji--;
+
+            if (czasPrezentacji <= 0)
+            {
+                timerShow.Stop();
+                czasLabel.Text = $"Pozostały czas: {poziom.TimeLevel}s";
+
+                // Po zakończeniu prezentacji przywróć gracza i rozpocznij poziom
+                gracz = new Gracz(poziom.Start.X, poziom.Start.Y);
+                timerLevel = new System.Windows.Forms.Timer();
+                timerLevel.Interval = 1000; // 1 sekunda
+                timerLevel.Tick += timerLevel_Tick;
+                pozostalyCzas = poziom.TimeLevel;
+                timerLevel.Start();
+            }
+            else
+            {
+                czasLabel.Text = $"Czas na zapamiętanie: {czasPrezentacji}s";
+            }
+
+            panelGry.Invalidate(); // Odśwież panel
         }
     }
 }

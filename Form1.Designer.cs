@@ -30,6 +30,9 @@
             components = new System.ComponentModel.Container();
             panelGry = new Panel();
             panelZadanie = new Panel();
+            buttonSprawdzZadanie = new Button();
+            textBoxZadanie = new TextBox();
+            labelZadanie = new Label();
             czasLabel = new Label();
             startButton = new Button();
             exitButton = new Button();
@@ -46,14 +49,7 @@
             returnMenu2 = new Button();
             text_poziom_Label = new Label();
             timerLevel = new System.Windows.Forms.Timer(components);
-            labelZadanie = new Label();
-            textBoxZadanie = new TextBox();
-            buttonSprawdzZadanie = new Button();
-
-
-
-
-
+            timerShow = new System.Windows.Forms.Timer(components);
             panelGry.SuspendLayout();
             panelZadanie.SuspendLayout();
             PanelMenuMain.SuspendLayout();
@@ -82,6 +78,34 @@
             panelZadanie.Size = new Size(400, 300);
             panelZadanie.TabIndex = 10;
             panelZadanie.Visible = false;
+            // 
+            // buttonSprawdzZadanie
+            // 
+            buttonSprawdzZadanie.Location = new Point(153, 237);
+            buttonSprawdzZadanie.Name = "buttonSprawdzZadanie";
+            buttonSprawdzZadanie.Size = new Size(75, 23);
+            buttonSprawdzZadanie.TabIndex = 0;
+            buttonSprawdzZadanie.Text = "Sprawdź";
+            buttonSprawdzZadanie.UseVisualStyleBackColor = true;
+            buttonSprawdzZadanie.Visible = false;
+            buttonSprawdzZadanie.Click += buttonSprawdzZadanie_Click;
+            // 
+            // textBoxZadanie
+            // 
+            textBoxZadanie.Location = new Point(3, 170);
+            textBoxZadanie.Name = "textBoxZadanie";
+            textBoxZadanie.Size = new Size(394, 23);
+            textBoxZadanie.TabIndex = 1;
+            textBoxZadanie.Visible = false;
+            // 
+            // labelZadanie
+            // 
+            labelZadanie.AutoSize = true;
+            labelZadanie.Location = new Point(3, 23);
+            labelZadanie.Name = "labelZadanie";
+            labelZadanie.Size = new Size(0, 15);
+            labelZadanie.TabIndex = 2;
+            labelZadanie.Visible = false;
             // 
             // czasLabel
             // 
@@ -244,31 +268,9 @@
             // 
             timerLevel.Tick += timerLevel_Tick;
             // 
-            // labelZadanie
+            // timerShow
             // 
-            labelZadanie.AutoSize = true;
-            labelZadanie.Location = new Point(3, 23);
-            labelZadanie.Name = "labelZadanie";
-            labelZadanie.Size = new Size(38, 15);
-            labelZadanie.Text = "";
-            labelZadanie.Visible = false;
-            // 
-            // textBoxZadanie
-            // 
-            textBoxZadanie.Location = new Point(3, 170);
-            textBoxZadanie.Name = "textBoxZadanie";
-            textBoxZadanie.Size = new Size(394, 23);
-            textBoxZadanie.Visible = false;
-            // 
-            // buttonSprawdzZadanie
-            // 
-            buttonSprawdzZadanie.Location = new Point(153, 237);
-            buttonSprawdzZadanie.Name = "buttonSprawdzZadanie";
-            buttonSprawdzZadanie.Size = new Size(75, 23);
-            buttonSprawdzZadanie.Text = "Sprawdź";
-            buttonSprawdzZadanie.UseVisualStyleBackColor = true;
-            buttonSprawdzZadanie.Visible = false;
-            buttonSprawdzZadanie.Click += new System.EventHandler(this.buttonSprawdzZadanie_Click);
+            timerShow.Tick += timerShow_Tick;
             // 
             // Form1
             // 
@@ -296,6 +298,6 @@
             PerformLayout();
         }
 
-
+        private System.Windows.Forms.Timer timerShow;
     }
 }
