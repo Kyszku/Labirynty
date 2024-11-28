@@ -17,6 +17,11 @@
         private System.Windows.Forms.Button returnMenu2;
         private System.Windows.Forms.Label text_poziom_Label;
 
+        private System.Windows.Forms.Panel panelZadanie;
+        private System.Windows.Forms.Button buttonSprawdzZadanie;
+        private System.Windows.Forms.TextBox textBoxZadanie;
+        private System.Windows.Forms.Label labelZadanie;
+
         private System.Windows.Forms.Timer timerLevel;
         private System.ComponentModel.IContainer components;
 
@@ -24,6 +29,7 @@
         {
             components = new System.ComponentModel.Container();
             panelGry = new Panel();
+            panelZadanie = new Panel();
             czasLabel = new Label();
             startButton = new Button();
             exitButton = new Button();
@@ -40,6 +46,16 @@
             returnMenu2 = new Button();
             text_poziom_Label = new Label();
             timerLevel = new System.Windows.Forms.Timer(components);
+            labelZadanie = new Label();
+            textBoxZadanie = new TextBox();
+            buttonSprawdzZadanie = new Button();
+
+
+
+
+
+            panelGry.SuspendLayout();
+            panelZadanie.SuspendLayout();
             PanelMenuMain.SuspendLayout();
             PanelPoziomy.SuspendLayout();
             PanelSterowanie.SuspendLayout();
@@ -47,18 +63,30 @@
             // 
             // panelGry
             // 
+            panelGry.Controls.Add(panelZadanie);
             panelGry.Location = new Point(10, 40);
             panelGry.Margin = new Padding(3, 2, 3, 2);
             panelGry.Name = "panelGry";
-            panelGry.Size = new Size(525, 450);
+            panelGry.Size = new Size(1100, 900);
             panelGry.TabIndex = 0;
             panelGry.Visible = false;
             panelGry.Paint += panelGry_Paint;
             // 
+            // panelZadanie
+            // 
+            panelZadanie.Controls.Add(buttonSprawdzZadanie);
+            panelZadanie.Controls.Add(textBoxZadanie);
+            panelZadanie.Controls.Add(labelZadanie);
+            panelZadanie.Location = new Point(376, 172);
+            panelZadanie.Name = "panelZadanie";
+            panelZadanie.Size = new Size(400, 300);
+            panelZadanie.TabIndex = 10;
+            panelZadanie.Visible = false;
+            // 
             // czasLabel
             // 
             czasLabel.AutoSize = true;
-            czasLabel.Location = new Point(441, 23);
+            czasLabel.Location = new Point(1016, 23);
             czasLabel.Name = "czasLabel";
             czasLabel.Size = new Size(94, 15);
             czasLabel.TabIndex = 1;
@@ -216,6 +244,32 @@
             // 
             timerLevel.Tick += timerLevel_Tick;
             // 
+            // labelZadanie
+            // 
+            labelZadanie.AutoSize = true;
+            labelZadanie.Location = new Point(3, 23);
+            labelZadanie.Name = "labelZadanie";
+            labelZadanie.Size = new Size(38, 15);
+            labelZadanie.Text = "";
+            labelZadanie.Visible = false;
+            // 
+            // textBoxZadanie
+            // 
+            textBoxZadanie.Location = new Point(3, 170);
+            textBoxZadanie.Name = "textBoxZadanie";
+            textBoxZadanie.Size = new Size(394, 23);
+            textBoxZadanie.Visible = false;
+            // 
+            // buttonSprawdzZadanie
+            // 
+            buttonSprawdzZadanie.Location = new Point(153, 237);
+            buttonSprawdzZadanie.Name = "buttonSprawdzZadanie";
+            buttonSprawdzZadanie.Size = new Size(75, 23);
+            buttonSprawdzZadanie.Text = "Sprawdź";
+            buttonSprawdzZadanie.UseVisualStyleBackColor = true;
+            buttonSprawdzZadanie.Visible = false;
+            buttonSprawdzZadanie.Click += new System.EventHandler(this.buttonSprawdzZadanie_Click);
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -230,6 +284,9 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Labirynty";
+            panelGry.ResumeLayout(false);
+            panelZadanie.ResumeLayout(false);
+            panelZadanie.PerformLayout();
             PanelMenuMain.ResumeLayout(false);
             PanelPoziomy.ResumeLayout(false);
             PanelPoziomy.PerformLayout();
@@ -238,6 +295,7 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
 
     }
 }

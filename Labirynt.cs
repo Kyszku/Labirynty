@@ -11,7 +11,7 @@
         public void GenerujLabirynt(int[,] macierz){
             Siatka = macierz;
         }
-        public void RysujLabirynt(Graphics g, int szerokoscKomorki, int wysokoscKomorki, (int X, int Y) start, (int X, int Y) end, List<(int X, int Y)> checkpoints)
+        public void RysujLabirynt(Graphics g, int szerokoscKomorki, int wysokoscKomorki, (int X, int Y) start, (int X, int Y) end, Dictionary<(int X, int Y), bool> checkpoints)
         {
             for (int x = 0; x < Szerokosc; x++){
                 for (int y = 0; y < Wysokosc; y++){
@@ -26,9 +26,17 @@
             g.FillRectangle(Brushes.Green, start.X * szerokoscKomorki, start.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
             // Rysowanie punktu końcowego
             g.FillRectangle(Brushes.Red, end.X * szerokoscKomorki, end.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
+
+            /*
             // Rysowanie checkpointów
             foreach (var checkpoint in checkpoints){
                 g.FillRectangle(Brushes.Yellow, checkpoint.X * szerokoscKomorki, checkpoint.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
+            }
+            */
+            foreach (var checkpoint in checkpoints)
+            {
+                var kolor = checkpoint.Value ? Brushes.Gray : Brushes.Yellow; // Szary dla odwiedzonych
+                g.FillRectangle(kolor, checkpoint.Key.X * szerokoscKomorki, checkpoint.Key.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
             }
         }
     }

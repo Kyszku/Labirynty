@@ -11,7 +11,7 @@ namespace Labirynty{
         private int wysokosc;  // Wysokość labiryntu
         //private System.Windows.Forms.Timer timer;
         private int pozostalyCzas; // Liczba sekund pozostałych na dany poziom
-
+        private double wynikPoprawny;
         public Form1()
         {
             InitializeComponent();
@@ -19,6 +19,12 @@ namespace Labirynty{
 
         private void UstawPoziom(Poziom poziom)
         {
+            if (timerLevel != null)
+            {
+                timerLevel.Stop();
+                timerLevel.Dispose();
+            }
+
             this.poziom = poziom;
             poziom.PrzywrocCheckpointy(); // Przywrócenie checkpointów
             labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
@@ -91,86 +97,114 @@ namespace Labirynty{
             }
             return false; // Zwracamy false, jeśli nie ma drogi
         }
+        
         private void CzyWszedlWCheckpoint()
         {
-            // Sprawdzamy, czy gracz jest na pozycji któregoś z checkpointów
-            var checkpoint = poziom.Checkpoints.Find(cp => cp.X == gracz.X && cp.Y == gracz.Y);
-            // Jeśli gracz trafił na checkpoint
-            if (checkpoint != default)
+            if (poziom.Checkpoints.ContainsKey((gracz.X, gracz.Y)) && !poziom.Checkpoints[(gracz.X, gracz.Y)])
             {
-                poziom.Checkpoints.Remove(checkpoint); // Usuń checkpoint, aby nie wyświetlać ponownie zadania
-                WyswietlZadanieMatematyczne(); // Wyświetl pytanie matematyczne
+                poziom.Checkpoints[(gracz.X, gracz.Y)] = true; // Oznacz checkpoint jako odwiedzony
+                WyswietlZadanieMatematyczne(); // Wyświetlenie zadania matematycznego
+            }
+        }
+
+        private void CzyGraczUkonczylPoziom()
+        {
+            if (gracz.X == poziom.End.X && gracz.Y == poziom.End.Y)
+            {
+                timerLevel.Stop(); // Zatrzymujemy timer
+                MessageBox.Show("Gratulacje! Ukończyłeś poziom!", "Sukces");
+                PanelPoziomy.Show(); // Przejdź do menu poziomów
+                text_poziom_Label.Hide();
+                czasLabel.Hide();
+                UkryjZadanie();
+                panelGry.Hide();
             }
         }
 
         private void WyswietlZadanieMatematyczne()
         {
+            wynikPoprawny = 0;
+            panelZadanie.Show();
             Random random = new Random();
-            bool jestPoprawnaOdpowiedz = false;
-            while (!jestPoprawnaOdpowiedz)
+            string pytanie = "";
+
+            // Generowanie zadania matematycznego
+            if (poziom == Poziom.Latwy)
             {
-                string pytanie = "";
-                double poprawnaOdpowiedz = 0;
-                if (poziom == Poziom.Latwy)
+                int a = random.Next(1, 20);
+                int b = random.Next(1, 20);
+                if (random.Next(2) == 0)
                 {
-                    int a = random.Next(1, 20);
-                    int b = random.Next(1, 20);
-                    if (random.Next(2) == 0)
-                    {
-                        pytanie = $"{a} + {b} = ?";
-                        poprawnaOdpowiedz = a + b;
-                    }
-                    else
-                    {
-                        pytanie = $"{a} - {b} = ?";
-                        poprawnaOdpowiedz = a - b;
-                    }
-                }
-                else if (poziom == Poziom.Sredni)
-                {
-                    int a = random.Next(1, 10);
-                    int b = random.Next(1, 10);
-                    if (random.Next(2) == 0)
-                    {
-                        pytanie = $"{a} * {b} = ?";
-                        poprawnaOdpowiedz = a * b;
-                    }
-                    else
-                    {
-                        pytanie = $"{a} / {b} = ?";
-                        poprawnaOdpowiedz = Math.Round((double)a / b, 2);
-                    }
-                }
-                else if (poziom == Poziom.Trudny)
-                {
-                    int a = random.Next(1, 10);
-                    if (random.Next(2) == 0)
-                    {
-                        pytanie = $"{a}^2 = ?";
-                        poprawnaOdpowiedz = Math.Pow(a, 2);
-                    }
-                    else
-                    {
-                        int b = a * a;
-                        pytanie = $"√{b} = ?";
-                        poprawnaOdpowiedz = Math.Sqrt(b);
-                    }
-                }
-                // Wyświetlanie pytania i pobieranie odpowiedzi
-                string odpowiedz = Microsoft.VisualBasic.Interaction.InputBox(pytanie, "Zadanie Matematyczne", "");
-                // Sprawdzanie odpowiedzi
-                if (double.TryParse(odpowiedz, out double wynik) && Math.Abs(wynik - poprawnaOdpowiedz) < 0.01)
-                {
-                    MessageBox.Show("Poprawna odpowiedź! Możesz kontynuować.", "Sukces");
-                    jestPoprawnaOdpowiedz = true;
+                    pytanie = $"{a} + {b} = ?";
+                    wynikPoprawny = a + b;
                 }
                 else
                 {
-                    MessageBox.Show($"Błędna odpowiedź. Prawidłowy wynik to: {poprawnaOdpowiedz}.", "Błąd");
+                    pytanie = $"{a} - {b} = ?";
+                    wynikPoprawny = a - b;
                 }
+            }
+            else if (poziom == Poziom.Sredni)
+            {
+                int a = random.Next(1, 10);
+                int b = random.Next(1, 10);
+                if (random.Next(2) == 0)
+                {
+                    pytanie = $"{a} * {b} = ?";
+                    wynikPoprawny = a * b;
+                }
+                else
+                {
+                    pytanie = $"{a} / {b} = ?";
+                    wynikPoprawny = Math.Round((double)a / b, 2);
+                }
+            }
+            else if (poziom == Poziom.Trudny)
+            {
+                int a = random.Next(1, 10);
+                if (random.Next(2) == 0)
+                {
+                    pytanie = $"{a}^2 = ?";
+                    wynikPoprawny = Math.Pow(a, 2);
+                }
+                else
+                {
+                    int b = a * a;
+                    pytanie = $"√{b} = ?";
+                    wynikPoprawny = Math.Sqrt(b);
+                }
+            }
+
+            // Wyświetlenie pytania i aktywowanie kontrolek
+            labelZadanie.Text = pytanie;
+            labelZadanie.Visible = true;
+            textBoxZadanie.Visible = true;
+            buttonSprawdzZadanie.Visible = true;
+        }
+        private void buttonSprawdzZadanie_Click(object sender, EventArgs e)
+        {
+            if (double.TryParse(textBoxZadanie.Text, out double wynikUzytkownika) &&
+                Math.Abs(wynikUzytkownika - wynikPoprawny) < 0.01)
+            {
+                MessageBox.Show("Poprawna odpowiedź! Możesz kontynuować.", "Sukces");
+                UkryjZadanie(); // Ukryj zadanie po poprawnej odpowiedzi
+            }
+            else
+            {
+                MessageBox.Show("Błędna odpowiedź. Spróbuj ponownie!", "Błąd");
             }
         }
 
+
+        // Metoda do ukrywania kontrolek zadania matematycznego
+        private void UkryjZadanie()
+        {
+            panelZadanie.Hide();
+            labelZadanie.Visible = false;
+            textBoxZadanie.Visible = false;
+            buttonSprawdzZadanie.Visible = false;
+            textBoxZadanie.Text = null;
+        }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -183,6 +217,7 @@ namespace Labirynty{
                     gracz.Rusz(keyData, poziom.Szerokosc, poziom.Wysokosc);
                     // Sprawdzamy, czy gracz wszedł w checkpoint
                     CzyWszedlWCheckpoint();
+                    CzyGraczUkonczylPoziom();
                     // Odswieza panel, aby zaktualizowaæ pozycje gracza
                     panelGry.Invalidate();
                 }
@@ -253,12 +288,19 @@ namespace Labirynty{
             {
                 timerLevel.Stop();
                 MessageBox.Show("Czas minął! Przegrałeś.", "Koniec gry");
+                UkryjZadanie();
                 RestartujPoziom();
             }
         }
         private void RestartujPoziom()
         {
-            timerLevel.Stop(); // Zatrzymujemy licznik czasu
+            if (timerLevel != null)
+            {
+                timerLevel.Stop();
+                timerLevel.Dispose();
+            }
+            //timerLevel.Stop(); // Zatrzymujemy licznik czasu
+            poziom.PrzywrocCheckpointy();
             UstawPoziom(poziom); // Przywracamy aktualny poziom do stanu początkowego
         }
     }
