@@ -5,13 +5,14 @@ namespace Labirynty{
     public partial class Form1 : Form
     {
         private Labirynt labirynt; // Przechowywanie labiryntu
-        private Poziom poziom = Poziom.Latwy; // Aktualny poziom trudności
+        private Poziom poziom = Poziom.Easy; // Aktualny poziom trudności
         private Gracz gracz;   // Obiekt reprezentujący gracza
         private int szerokosc; // Szerokość labiryntu
         private int wysokosc;  // Wysokość labiryntu;
         private int pozostalyCzas; // Liczba sekund pozostałych na dany poziom
         private int czasPrezentacji;
         private double wynikPoprawny;
+        private bool graZatrzymana = false; // Flaga pauzy
         public Form1()
         {
             InitializeComponent();
@@ -39,6 +40,7 @@ namespace Labirynty{
 
             // Wyświetlenie labiryntu dla gracza przez 30 sekund
             czasPrezentacji = poziom.TimeShow;
+            text_poziom_Label.Text = $"Poziom: {poziom.NameLevel}";
             czasLabel.Text = $"Czas na zapamiętanie: {czasPrezentacji}s";
             panelGry.Invalidate(); // Rysowanie labiryntu
 
@@ -73,13 +75,25 @@ namespace Labirynty{
 
         private void controlsButton_Click(object sender, EventArgs e)
         {
-            PanelSterowanie.Show();
+            panelGry.Hide();
+            PanelMenuMain.Hide();
+            PanelPoziomy.Hide();
+            czasPrezentacji = 0;
+            pozostalyCzas = 0;
+            czasLabel.Hide();
+            text_poziom_Label.Hide();
+            PanelSterowanieMenuMain.Show();
         }
 
         private void returnMenu2_Click(object sender, EventArgs e)
         {
-            PanelSterowanie.Hide();
+            PanelSterowanieMenuMain.Hide();
+            panelGry.Hide();
+            text_poziom_Label.Hide();
+            czasLabel.Hide();
             PanelMenuMain.Show();
+            pozostalyCzas = 0;
+            czasPrezentacji = 0;
         }
         public bool CzyMoznaRuszac(int x, int y, Keys key)
         {
@@ -139,7 +153,7 @@ namespace Labirynty{
             string pytanie = "";
 
             // Generowanie zadania matematycznego
-            if (poziom == Poziom.Latwy)
+            if (poziom == Poziom.Easy)
             {
                 int a = random.Next(1, 20);
                 int b = random.Next(1, 20);
@@ -154,7 +168,7 @@ namespace Labirynty{
                     wynikPoprawny = a - b;
                 }
             }
-            else if (poziom == Poziom.Sredni)
+            else if (poziom == Poziom.Meduim)
             {
                 int a = random.Next(1, 10);
                 int b = random.Next(1, 10);
@@ -169,7 +183,7 @@ namespace Labirynty{
                     wynikPoprawny = Math.Round((double)a / b, 2);
                 }
             }
-            else if (poziom == Poziom.Trudny)
+            else if (poziom == Poziom.Hard)
             {
                 int a = random.Next(1, 10);
                 if (random.Next(2) == 0)
@@ -204,8 +218,6 @@ namespace Labirynty{
                 MessageBox.Show("Błędna odpowiedź. Spróbuj ponownie!", "Błąd");
             }
         }
-
-
         // Metoda do ukrywania kontrolek zadania matematycznego
         private void UkryjZadanie()
         {
@@ -215,7 +227,6 @@ namespace Labirynty{
             buttonSprawdzZadanie.Visible = false;
             textBoxZadanie.Text = null;
         }
-
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             // Sprawdzenie, czy obiekt gracz jest zainicjalizowany
@@ -235,7 +246,6 @@ namespace Labirynty{
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-
         private void panelGry_Paint(object sender, PaintEventArgs e)
         {
             if (labirynt != null && poziom != null)
@@ -254,11 +264,13 @@ namespace Labirynty{
 
         private void easyLevel_Click(object sender, EventArgs e)
         {
-            UstawPoziom(Poziom.Latwy);
+            panelPodczasgry.Hide();
+            UstawPoziom(Poziom.Easy);
             text_poziom_Label.Hide();
             panelGry.Hide();
             MessageBox.Show("Ustawiono poziom: Łatwy\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             panelGry.Show();
+            panelPodczasgry.Show();
             text_poziom_Label.Show();
             czasLabel.Show();
             panelGry.Invalidate();
@@ -266,11 +278,13 @@ namespace Labirynty{
 
         private void mediumLevel_Click(object sender, EventArgs e)
         {
-            UstawPoziom(Poziom.Sredni);
+            panelPodczasgry.Hide();
+            UstawPoziom(Poziom.Meduim);
             text_poziom_Label.Hide();
             panelGry.Hide();
             MessageBox.Show("Ustawiono poziom: Średni\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             panelGry.Show();
+            panelPodczasgry.Show();
             text_poziom_Label.Show();
             czasLabel.Show();
             panelGry.Invalidate();
@@ -278,11 +292,13 @@ namespace Labirynty{
 
         private void hardLevel_Click(object sender, EventArgs e)
         {
-            UstawPoziom(Poziom.Trudny);
+            panelPodczasgry.Hide();
+            UstawPoziom(Poziom.Hard);
             text_poziom_Label.Hide();
             panelGry.Hide();
             MessageBox.Show("Ustawiono poziom: Trudny\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             panelGry.Show();
+            panelPodczasgry.Show();
             text_poziom_Label.Show();
             czasLabel.Show();
             panelGry.Invalidate();
@@ -337,6 +353,77 @@ namespace Labirynty{
             }
 
             panelGry.Invalidate(); // Odśwież panel
+        }
+
+        private void returnLevel_Click(object sender, EventArgs e)
+        {
+            panelGry.Hide();
+            PanelSterowanieMenuMain.Hide();
+            PanelPoziomy.Show();
+            czasPrezentacji = 0;
+            pozostalyCzas = 0;
+            text_poziom_Label.Hide();
+            czasLabel.Hide();
+        }
+
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            if (graZatrzymana)
+            {
+                // Wznawiamy grę
+                WznowWlasciwyTimer();
+                pauseButton.Text = "Pauza"; // Zmień tekst przycisku
+                graZatrzymana = false;
+            }
+            else
+            {
+                // Zatrzymujemy grę
+                ZatrzymajWszystkieTimery(); // Zatrzymaj liczniki czasu
+                MessageBox.Show("Gra jest wstrzymana. Kliknij przycisk 'Wznów', aby kontynuować.", "Pauza");
+                pauseButton.Text = "Wznów"; // Zmień tekst przycisku
+                graZatrzymana = true;
+            }
+        }
+
+        private void returnLevel2_Click(object sender, EventArgs e)
+        {
+            PanelMenuMain.Hide();
+            PanelPoziomy.Show();
+        }
+
+        private void exitButton2_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+
+        private void ZatrzymajWszystkieTimery()
+        {
+            if (timerShow != null && timerShow.Enabled) timerShow.Stop();
+            if (timerLevel != null && timerLevel.Enabled) timerLevel.Stop();
+        }
+        private void WznowWlasciwyTimer()
+        {
+            if (czasPrezentacji > 0 && timerShow != null) timerShow.Start();
+            else if (pozostalyCzas > 0 && timerLevel != null) timerLevel.Start();
+        }
+
+
+        private void controlsButton2_Click(object sender, EventArgs e)
+        {
+            ZatrzymajWszystkieTimery();
+            panelGry.Hide();
+            PanelMenuMain.Hide();
+            PanelPoziomy.Hide();
+            czasLabel.Hide();
+            text_poziom_Label.Hide();
+            PanelSterowanieGra.Show();
+        }
+
+        private void returnMenu3_Click(object sender, EventArgs e)
+        {
+            PanelSterowanieGra.Hide();
+            PanelPoziomy.Show();
         }
     }
 }

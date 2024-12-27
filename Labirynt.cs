@@ -23,16 +23,10 @@
                     }
                 }
             }
+            // Rysowanie punktu początkowego
             g.FillRectangle(Brushes.Green, start.X * szerokoscKomorki, start.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
             // Rysowanie punktu końcowego
             g.FillRectangle(Brushes.Red, end.X * szerokoscKomorki, end.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
-
-            /*
-            // Rysowanie checkpointów
-            foreach (var checkpoint in checkpoints){
-                g.FillRectangle(Brushes.Yellow, checkpoint.X * szerokoscKomorki, checkpoint.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
-            }
-            */
             foreach (var checkpoint in checkpoints)
             {
                 var kolor = checkpoint.Value ? Brushes.Gray : Brushes.Yellow; // Szary dla odwiedzonych
