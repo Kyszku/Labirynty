@@ -1,16 +1,34 @@
 ﻿namespace Labirynty{
     public class Labirynt{
-        public int[,] Siatka { get; private set; } // Reprezentacja labiryntu
-        public int Szerokosc { get; private set; }
-        public int Wysokosc { get; private set; }
+        public int[,] Siatka { get; private set; } /** Reprezentacja labiryntu w postaci dwuwymiarowej tablicy */
+        public int Szerokosc { get; private set; }  /** Szerokość labiryntu */
+        public int Wysokosc { get; private set; }   /** Wysokość labiryntu */
+        /** 
+         * Konstruktor klasy Labirynt 
+         * @param szerokosc - szerokość labiryntu
+         * @param wysokosc - wysokość labiryntu
+         */
         public Labirynt(int szerokosc, int wysokosc){
             Szerokosc = szerokosc;
             Wysokosc = wysokosc;
             Siatka = new int[szerokosc, wysokosc];
         }
+        /** 
+         * Metoda generująca labirynt na podstawie podanej macierzy 
+         * @param macierz - macierz definiująca układ labiryntu
+         */
         public void GenerujLabirynt(int[,] macierz){
-            Siatka = macierz;
+            Siatka = macierz; //Ustawienie siatki na macierz
         }
+        /** 
+         * Metoda rysująca labirynt na obiekcie Graphics 
+         * @param g - obiekt Graphics do rysowania
+         * @param szerokoscKomorki - szerokość pojedynczej komórki labiryntu
+         * @param wysokoscKomorki - wysokość pojedynczej komórki labiryntu
+         * @param start - punkt startowy w labiryncie
+         * @param end - punkt końcowy w labiryncie
+         * @param checkpoints - słownik checkpointów i ich stanu
+         */
         public void RysujLabirynt(Graphics g, int szerokoscKomorki, int wysokoscKomorki, (int X, int Y) start, (int X, int Y) end, Dictionary<(int X, int Y), bool> checkpoints)
         {
             for (int x = 0; x < Szerokosc; x++){
