@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Labirynty{
+namespace Labirynty
+{
     public partial class Form1 : Form
     {
-        private Labirynt labirynt; /** Przechowuje instancję labiryntu, który jest aktualnie używany w grze */
-        private Poziom poziom = Poziom.Easy; /** Reprezentuje aktualny poziom trudności gry, domyślnie ustawiony na poziom łatwy */
-        private Gracz gracz;   /** Obiekt reprezentujący gracza w grze, przechowując jego pozycję */
-        private int szerokosc; /** Szerokość labiryntu w jednostkach, używana do obliczeń graficznych */
-        private int wysokosc;  /** Wysokość labiryntu w jednostkach, używana do obliczeń graficznych */
-        private int pozostalyCzas; /** Liczba sekund pozostałych na dany poziom, używana do zarządzania czasem gry */
-        private int czasPrezentacji; /** Czas prezentacji labiryntu przed rozpoczęciem poziomu, w sekundach */
-        private double wynikPoprawny; /** Przechowuje poprawny wynik zadania matematycznego, które gracz musi rozwiązać */
-        private bool graZatrzymana = false; /** Flaga wskazująca, czy gra jest wstrzymana (pauza) */
+        /** Przechowuje instancję labiryntu, który jest aktualnie używany w grze */
+        public Labirynt labirynt;
+        /** Reprezentuje aktualny poziom trudności gry, domyślnie ustawiony na poziom łatwy */
+        public Poziom poziom = Poziom.Easy;
+        /** Obiekt reprezentujący gracza w grze, przechowując jego pozycję */
+        public Gracz gracz;
+        /** Szerokość labiryntu w jednostkach, używana do obliczeń graficznych */
+        public int szerokosc;
+        /** Wysokość labiryntu w jednostkach, używana do obliczeń graficznych */
+        public int wysokosc;
+        /** Liczba sekund pozostałych na dany poziom, używana do zarządzania czasem gry */
+        public int pozostalyCzas;
+        /** Czas prezentacji labiryntu przed rozpoczęciem poziomu, w sekundach */
+        public int czasPrezentacji;
+        /** Przechowuje poprawny wynik zadania matematycznego, które gracz musi rozwiązać */
+        public double wynikPoprawny;
+        /** Flaga wskazująca, czy gra jest wstrzymana (pauza) */
+        public bool graZatrzymana = false;
 
         /** Konstruktor klasy Form1, inicjalizuje komponenty formularza */
         public Form1()
@@ -21,11 +31,10 @@ namespace Labirynty{
         }
 
         /** 
-        * Ustawia poziom trudności gry oraz inicjalizuje odpowiednie elementy
-        * 
+        * Ustawia poziom trudności gry oraz inicjalizuje odpowiednie elementy 
         * @param poziom Poziom - nowy poziom trudności do ustawienia
         */
-        private void UstawPoziom(Poziom poziom)
+        public void UstawPoziom(Poziom poziom)
         {
             /** Zatrzymuje i zwalnia timer poziomu, jeśli jest aktywny */
             if (timerLevel != null)
@@ -39,27 +48,37 @@ namespace Labirynty{
                 timerShow.Stop();
                 timerShow.Dispose();
             }
-
-            this.poziom = poziom;   /** Ustawia nowy poziom trudności */
-            poziom.PrzywrocCheckpointy(); /** Przywraca checkpointy do stanu początkowego */
-            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc); /** Inicjalizuje nowy labirynt na podstawie szerokości i wysokości poziomu */
-            labirynt.GenerujLabirynt(poziom.Macierz);   /** Generuje labirynt na podstawie macierzy poziomu */
-            gracz = new Gracz(poziom.Start.X, poziom.Start.Y);  /** Inicjalizuje gracza na pozycji startowej poziomu */
+            /** Ustawia nowy poziom trudności */
+            this.poziom = poziom;
+            /** Przywraca checkpointy do stanu początkowego */
+            poziom.PrzywrocCheckpointy();
+            /** Inicjalizuje nowy labirynt na podstawie szerokości i wysokości poziomu */
+            labirynt = new Labirynt(poziom.Szerokosc, poziom.Wysokosc);
+            /** Generuje labirynt na podstawie macierzy poziomu */
+            labirynt.GenerujLabirynt(poziom.Macierz);
+            /** Inicjalizuje gracza na pozycji startowej poziomu */
+            gracz = new Gracz(poziom.Start.X, poziom.Start.Y);
 
             // Wyświetlenie labiryntu dla gracza przez dany czas
-            czasPrezentacji = poziom.TimeShow; /** Inicjalizuje gracza na pozycji startowej poziomu */
-            text_poziom_Label.Text = $"Poziom: {poziom.NameLevel}"; /** Inicjalizuje gracza na pozycji startowej poziomu */
-            czasLabel.Text = $"Czas na zapamiętanie: {czasPrezentacji}s";   /** Inicjalizuje gracza na pozycji startowej poziomu */
-            panelGry.Invalidate(); /** Odświeża panel gry, aby narysować nowy labirynt */
+            /** Inicjalizuje gracza na pozycji startowej poziomu */
+            czasPrezentacji = poziom.TimeShow;
+            /** Inicjalizuje gracza na pozycji startowej poziomu */
+            text_poziom_Label.Text = $"Poziom: {poziom.NameLevel}";
+            /** Inicjalizuje gracza na pozycji startowej poziomu */
+            czasLabel.Text = $"Czas na zapamiętanie: {czasPrezentacji}s";
+            /** Odświeża panel gry, aby narysować nowy labirynt */
+            panelGry.Invalidate();
 
             // Ustawienie timera prezentacji
-            timerShow = new System.Windows.Forms.Timer();   /** Odświeża panel gry, aby narysować nowy labirynt */
+            /** Odświeża panel gry, aby narysować nowy labirynt */
+            timerShow = new System.Windows.Forms.Timer();
             timerShow.Interval = 1000; // 1 sekunda
             timerShow.Tick += timerShow_Tick;
             timerShow.Start();
 
             // Ukrycie gracza na czas prezentacji
-            gracz = null;   /** Odświeża panel gry, aby narysować nowy labirynt */
+            /** Odświeża panel gry, aby narysować nowy labirynt */
+            gracz = null;
         }
 
         /** 
@@ -67,12 +86,16 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void startButton_Click(object sender, EventArgs e)
+        public void startButton_Click(object sender, EventArgs e)
         {
-            this.Focus();   /** Ustawia fokus na formularz, aby umożliwić interakcję z nim */
-            panelGry.Invalidate();  /** Ustawia fokus na formularz, aby umożliwić interakcję z nim */
-            PanelMenuMain.Hide();   /** Ukrywa główne menu, aby przejść do wyboru poziomu */
-            PanelPoziomy.Show();    /** Wyświetla panel do wyboru poziomu */
+            /** Ustawia fokus na formularz, aby umożliwić interakcję z nim */
+            this.Focus();
+            /** Ustawia fokus na formularz, aby umożliwić interakcję z nim */
+            panelGry.Invalidate();
+            /** Ukrywa główne menu, aby przejść do wyboru poziomu */
+            PanelMenuMain.Hide();
+            /** Wyświetla panel do wyboru poziomu */
+            PanelPoziomy.Show();
         }
 
         /** 
@@ -80,9 +103,10 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void exitButton_Click(object sender, EventArgs e)
+        public void exitButton_Click(object sender, EventArgs e)
         {
-            Application.Exit(); /** Zamyka aplikacje */
+            /** Zamyka aplikacje */
+            Application.Exit();
         }
 
         /** 
@@ -90,10 +114,12 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void retrunButton_Click(object sender, EventArgs e)
+        public void retrunButton_Click(object sender, EventArgs e)
         {
-            PanelPoziomy.Hide();    /** Ukrywa panel wyboru poziomu */
-            PanelMenuMain.Show();   /** Wyświetla główne menu */
+            /** Ukrywa panel wyboru poziomu */
+            PanelPoziomy.Hide();
+            /** Wyświetla główne menu */
+            PanelMenuMain.Show();
         }
 
         /** 
@@ -101,16 +127,24 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void controlsButton_Click(object sender, EventArgs e)
+        public void controlsButton_Click(object sender, EventArgs e)
         {
-            panelGry.Hide();    /** Ukrywa panel gry */
-            PanelMenuMain.Hide();   /** Ukrywa główne menu */
-            PanelPoziomy.Hide();    /** Ukrywa panel wyboru poziomu */
-            czasPrezentacji = 0;    /** Resetuje czas prezentacji do zera */
-            pozostalyCzas = 0;  /** Resetuje pozostały czas do zera */
-            czasLabel.Hide();   /** Ukrywa etykietę z czasem */
-            text_poziom_Label.Hide();   /** Ukrywa etykietę z poziomem */
-            PanelSterowanieMenuMain.Show(); /** Wyświetla panel sterowania */
+            /** Ukrywa panel gry */
+            panelGry.Hide();
+            /** Ukrywa główne menu */
+            PanelMenuMain.Hide();
+            /** Ukrywa panel wyboru poziomu */
+            PanelPoziomy.Hide();
+            /** Resetuje czas prezentacji do zera */
+            czasPrezentacji = 0;
+            /** Resetuje pozostały czas do zera */
+            pozostalyCzas = 0;
+            /** Ukrywa etykietę z czasem */
+            czasLabel.Hide();
+            /** Ukrywa etykietę z poziomem */
+            text_poziom_Label.Hide();
+            /** Wyświetla panel sterowania */
+            PanelSterowanieMenuMain.Show();
         }
 
         /** 
@@ -118,15 +152,22 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void returnMenu2_Click(object sender, EventArgs e)
+        public void returnMenu2_Click(object sender, EventArgs e)
         {
-            PanelSterowanieMenuMain.Hide(); /** Ukrywa panel sterowania */
-            panelGry.Hide();    /** Ukrywa panel gry */
-            text_poziom_Label.Hide();   /** Ukrywa etykietę z poziomem */
-            czasLabel.Hide();   /** Ukrywa etykietę z czasem */
-            PanelMenuMain.Show();   /** Wyświetla główne menu */
-            pozostalyCzas = 0;  /** Resetuje pozostały czas do zera */
-            czasPrezentacji = 0;    /** Resetuje czas prezentacji do zera */
+            /** Ukrywa panel sterowania */
+            PanelSterowanieMenuMain.Hide();
+            /** Ukrywa panel gry */
+            panelGry.Hide();
+            /** Ukrywa etykietę z poziomem */
+            text_poziom_Label.Hide();
+            /** Ukrywa etykietę z czasem */
+            czasLabel.Hide();
+            /** Wyświetla główne menu */
+            PanelMenuMain.Show();
+            /** Resetuje pozostały czas do zera */
+            pozostalyCzas = 0;
+            /** Resetuje czas prezentacji do zera */
+            czasPrezentacji = 0;
         }
 
         /** 
@@ -191,11 +232,10 @@ namespace Labirynty{
         * Jeśli gracz znajduje się w punkcie kontrolnym, oznacza go jako odwiedzony
         * i wyświetla zadanie matematyczne do rozwiązania.
         */
-        private void CzyWszedlWCheckpoint()
+        public void CzyWszedlWCheckpoint()
         {
             /** 
-            * Sprawdzamy, czy aktualna pozycja gracza jest punktem kontrolnym 
-            * oraz czy nie został on wcześniej odwiedzony.
+            * Sprawdzamy, czy aktualna pozycja gracza jest punktem kontrolnym oraz czy nie został on wcześniej odwiedzony.
             */
             if (poziom.Checkpoints.ContainsKey((gracz.X, gracz.Y)) && !poziom.Checkpoints[(gracz.X, gracz.Y)])
             {
@@ -211,20 +251,27 @@ namespace Labirynty{
         * Jeśli gracz dotarł do punktu końcowego, zatrzymuje timer, 
         * wyświetla komunikat o sukcesie i przechodzi do menu poziomów.
         */
-        private void CzyGraczUkonczylPoziom()
+        public void CzyGraczUkonczylPoziom()
         {
             /** 
             * Sprawdzamy, czy pozycja gracza odpowiada pozycji końcowej poziomu.
             */
             if (gracz.X == poziom.End.X && gracz.Y == poziom.End.Y)
             {
-                timerLevel.Stop(); /** Zatrzymujemy timer */
-                MessageBox.Show("Gratulacje! Ukończyłeś poziom!", "Sukces");    /** Wyświetlamy komunikat o ukończeniu poziomu */
-                PanelPoziomy.Show(); /** Przejdź do menu poziomów */
-                text_poziom_Label.Hide();   /** Przechodzimy do menu poziomów */
-                czasLabel.Hide();   /** Ukrywamy etykiety z poziomem i czasem */
-                UkryjZadanie(); /** Ukrywamy zadanie matematyczne, jeśli jest wyświetlane */
-                panelGry.Hide();    /** Ukrywamy zadanie matematyczne, jeśli jest wyświetlane */
+                /** Zatrzymujemy timer */
+                timerLevel.Stop();
+                /** Wyświetlamy komunikat o ukończeniu poziomu */
+                MessageBox.Show("Gratulacje! Ukończyłeś poziom!", "Sukces");
+                /** Przejdź do menu poziomów */
+                PanelPoziomy.Show();
+                /** Przechodzimy do menu poziomów */
+                text_poziom_Label.Hide();
+                /** Ukrywamy etykiety z poziomem i czasem */
+                czasLabel.Hide();
+                /** Ukrywamy zadanie matematyczne, jeśli jest wyświetlane */
+                UkryjZadanie();
+                /** Ukrywamy zadanie matematyczne, jeśli jest wyświetlane */
+                panelGry.Hide();
             }
         }
 
@@ -232,19 +279,25 @@ namespace Labirynty{
         * Wyświetla zadanie matematyczne do rozwiązania w zależności od poziomu trudności.
         * Generuje losowe pytanie matematyczne i ustawia poprawny wynik.
         */
-        private void WyswietlZadanieMatematyczne()
+        public void WyswietlZadanieMatematyczne()
         {
-            wynikPoprawny = 0;  /** Resetuje zmienną przechowującą poprawny wynik */
-            panelZadanie.Show();    /** Wyświetla panel z zadaniem matematycznym */
-            Random random = new Random();   /** Inicjalizuje generator liczb losowych */
-            string pytanie = "";    /** Zmienna do przechowywania pytania matematycznego */
+            /** Resetuje zmienną przechowującą poprawny wynik */
+            wynikPoprawny = 0;
+            /** Wyświetla panel z zadaniem matematycznym */
+            panelZadanie.Show();
+            /** Inicjalizuje generator liczb losowych */
+            Random random = new Random();
+            /** Zmienna do przechowywania pytania matematycznego */
+            string pytanie = "";
 
             // Generowanie zadania matematycznego
-            if (poziom == Poziom.Easy)  /** Generowanie zadania matematycznego w zależności od poziomu trudności */
+            /** Generowanie zadania matematycznego w zależności od poziomu trudności */
+            if (poziom == Poziom.Easy)
             {
                 int a = random.Next(1, 20);
                 int b = random.Next(1, 20);
-                if (random.Next(2) == 0)    /** Losuje, czy zadanie będzie dodawaniem czy odejmowaniem */
+                /** Losuje, czy zadanie będzie dodawaniem czy odejmowaniem */
+                if (random.Next(2) == 0)
                 {
                     pytanie = $"{a} + {b} = ?";
                     wynikPoprawny = a + b;
@@ -259,7 +312,8 @@ namespace Labirynty{
             {
                 int a = random.Next(1, 10);
                 int b = random.Next(1, 10);
-                if (random.Next(2) == 0)    /** Losuje, czy zadanie będzie mnożeniem czy dzieleniem */
+                /** Losuje, czy zadanie będzie mnożeniem czy dzieleniem */
+                if (random.Next(2) == 0)
                 {
                     pytanie = $"{a} * {b} = ?";
                     wynikPoprawny = a * b;
@@ -273,7 +327,8 @@ namespace Labirynty{
             else if (poziom == Poziom.Hard)
             {
                 int a = random.Next(1, 10);
-                if (random.Next(2) == 0) /** Losuje, czy zadanie będzie potęgą czy pierwiastkiem */
+                /** Losuje, czy zadanie będzie potęgą czy pierwiastkiem */
+                if (random.Next(2) == 0)
                 {
                     pytanie = $"{a}^2 = ?";
                     wynikPoprawny = Math.Pow(a, 2);
@@ -300,7 +355,7 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void buttonSprawdzZadanie_Click(object sender, EventArgs e)
+        public void buttonSprawdzZadanie_Click(object sender, EventArgs e)
         {
             /** 
             * Próbuje przekonwertować tekst z pola odpowiedzi na liczbę typu double.
@@ -310,12 +365,15 @@ namespace Labirynty{
             if (double.TryParse(textBoxZadanie.Text, out double wynikUzytkownika) &&
                 Math.Abs(wynikUzytkownika - wynikPoprawny) < 0.01)
             {
-                MessageBox.Show("Poprawna odpowiedź! Możesz kontynuować.", "Sukces");   /** Wyświetla komunikat o poprawnej odpowiedzi */
-                UkryjZadanie(); /** Ukrywa zadanie matematyczne po poprawnej odpowiedzi */
+                /** Wyświetla komunikat o poprawnej odpowiedzi */
+                MessageBox.Show("Poprawna odpowiedź! Możesz kontynuować.", "Sukces");
+                /** Ukrywa zadanie matematyczne po poprawnej odpowiedzi */
+                UkryjZadanie();
             }
             else
             {
-                MessageBox.Show("Błędna odpowiedź. Spróbuj ponownie!", "Błąd"); /** Wyświetla komunikat o błędnej odpowiedzi */
+                /** Wyświetla komunikat o błędnej odpowiedzi */
+                MessageBox.Show("Błędna odpowiedź. Spróbuj ponownie!", "Błąd");
             }
         }
         /** 
@@ -324,13 +382,18 @@ namespace Labirynty{
         * resetowania widoczności kontrolek, aby przygotować interfejs 
         * do następnego zadania lub do powrotu do gry.
         */
-        private void UkryjZadanie()
+        public void UkryjZadanie()
         {
-            panelZadanie.Hide();    /** Ukrywa panel z zadaniem matematycznym */
-            labelZadanie.Visible = false;   /** Ustawia widoczność etykiety z pytaniem na false */
-            textBoxZadanie.Visible = false; /** Ustawia widoczność pola tekstowego na false */
-            buttonSprawdzZadanie.Visible = false;   /** Ustawia widoczność przycisku do sprawdzania odpowiedzi na false */
-            textBoxZadanie.Text = null; /** Resetuje tekst w polu odpowiedzi do wartości null */
+            /** Ukrywa panel z zadaniem matematycznym */
+            panelZadanie.Hide();
+            /** Ustawia widoczność etykiety z pytaniem na false */
+            labelZadanie.Visible = false;
+            /** Ustawia widoczność pola tekstowego na false */
+            textBoxZadanie.Visible = false;
+            /** Ustawia widoczność przycisku do sprawdzania odpowiedzi na false */
+            buttonSprawdzZadanie.Visible = false;
+            /** Resetuje tekst w polu odpowiedzi do wartości null */
+            textBoxZadanie.Text = null;
         }
 
         /** 
@@ -343,20 +406,27 @@ namespace Labirynty{
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             // Sprawdzenie, czy obiekt gracz jest zainicjalizowany
-            if (gracz != null)  /** Sprawdzenie, czy obiekt gracz jest zainicjalizowany */
+            /** Sprawdzenie, czy obiekt gracz jest zainicjalizowany */
+            if (gracz != null)
             {
-                if (CzyMoznaRuszac(gracz.X, gracz.Y, keyData)) /** Sprawdza, czy gracz może się poruszać w kierunku wskazanym przez naciśnięty klawisz */
+                /** Sprawdza, czy gracz może się poruszać w kierunku wskazanym przez naciśnięty klawisz */
+                if (CzyMoznaRuszac(gracz.X, gracz.Y, keyData))
                 {
                     // Wywolanie metody przesuniecie gracza na podstawie wcisnietego klawisza
-                    gracz.Rusz(keyData, poziom.Szerokosc, poziom.Wysokosc); /** Wywołanie metody przesunięcia gracza na podstawie wciśniętego klawisza */
+                    /** Wywołanie metody przesunięcia gracza na podstawie wciśniętego klawisza */
+                    gracz.Rusz(keyData, poziom.Szerokosc, poziom.Wysokosc);
                     // Sprawdzamy, czy gracz wszedł w checkpoint
-                    CzyWszedlWCheckpoint(); /** Sprawdzamy, czy gracz wszedł w checkpoint */
-                    CzyGraczUkonczylPoziom();   /** Sprawdzamy, czy gracz ukończył poziom */
+                    /** Sprawdzamy, czy gracz wszedł w checkpoint */
+                    CzyWszedlWCheckpoint();
+                    /** Sprawdzamy, czy gracz ukończył poziom */
+                    CzyGraczUkonczylPoziom();
                     // Odswieza panel, aby zaktualizowaæ pozycje gracza
-                    panelGry.Invalidate();  /** Odświeża panel, aby zaktualizować pozycję gracza */
+                    /** Odświeża panel, aby zaktualizować pozycję gracza */
+                    panelGry.Invalidate();
                 }
             }
-            return base.ProcessCmdKey(ref msg, keyData); /** Wywołuje bazową metodę ProcessCmdKey, aby zapewnić domyślną obsługę klawiszy */
+            /** Wywołuje bazową metodę ProcessCmdKey, aby zapewnić domyślną obsługę klawiszy */
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         /** 
@@ -365,9 +435,10 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia malowania, zawierające informacje o grafice.
         */
-        private void panelGry_Paint(object sender, PaintEventArgs e)
+        public void panelGry_Paint(object sender, PaintEventArgs e)
         {
-            if (labirynt != null && poziom != null) /** Sprawdza, czy labirynt i poziom są zainicjalizowane */
+            /** Sprawdza, czy labirynt i poziom są zainicjalizowane */
+            if (labirynt != null && poziom != null)
             {
                 /** 
                 * Oblicza szerokość i wysokość komórki na podstawie rozmiaru panelu gry 
@@ -376,9 +447,11 @@ namespace Labirynty{
                 int szerokoscKomorki = panelGry.Width / poziom.Szerokosc;
                 int wysokoscKomorki = panelGry.Height / poziom.Wysokosc;
                 // Wywołanie metody rysującej labirynt
-                labirynt.RysujLabirynt(e.Graphics, szerokoscKomorki, wysokoscKomorki, poziom.Start, poziom.End, poziom.Checkpoints);    /** Wywołanie metody rysującej labirynt na podstawie aktualnych parametrów */
+                /** Wywołanie metody rysującej labirynt na podstawie aktualnych parametrów */
+                labirynt.RysujLabirynt(e.Graphics, szerokoscKomorki, wysokoscKomorki, poziom.Start, poziom.End, poziom.Checkpoints);
                 // Rysowanie gracza
-                if (gracz != null)  /** Rysowanie gracza na panelu, jeśli obiekt gracz jest zainicjalizowany */
+                /** Rysowanie gracza na panelu, jeśli obiekt gracz jest zainicjalizowany */
+                if (gracz != null)
                 {
                     e.Graphics.FillRectangle(Brushes.Blue, gracz.X * szerokoscKomorki, gracz.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
                 }
@@ -391,12 +464,16 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void easyLevel_Click(object sender, EventArgs e)
+        public void easyLevel_Click(object sender, EventArgs e)
         {
-            panelPodczasgry.Hide(); /** Ukrywa panel z informacjami o grze */
-            UstawPoziom(Poziom.Easy);   /** Ustawia poziom trudności na łatwy */
-            text_poziom_Label.Hide();   /** Ukrywa etykietę z poziomem */
-            panelGry.Hide();    /** Ukrywa panel gry przed rozpoczęciem poziomu */
+            /** Ukrywa panel z informacjami o grze */
+            panelPodczasgry.Hide();
+            /** Ustawia poziom trudności na łatwy */
+            UstawPoziom(Poziom.Easy);
+            /** Ukrywa etykietę z poziomem */
+            text_poziom_Label.Hide();
+            /** Ukrywa panel gry przed rozpoczęciem poziomu */
+            panelGry.Hide();
             /** Wyświetla komunikat informujący o ustawieniu poziomu oraz czasie na zapamiętanie labiryntu */
             MessageBox.Show("Ustawiono poziom: Łatwy\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             /** Wyświetla panel gry oraz inne elementy interfejsu */
@@ -405,7 +482,7 @@ namespace Labirynty{
             text_poziom_Label.Show();
             czasLabel.Show();
             panelGry.Invalidate();
-}
+        }
 
         /** 
         * Obsługuje zdarzenie kliknięcia przycisku wyboru łatwego poziomu. 
@@ -413,12 +490,16 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void mediumLevel_Click(object sender, EventArgs e)
+        public void mediumLevel_Click(object sender, EventArgs e)
         {
-            panelPodczasgry.Hide(); /** Ukrywa panel z informacjami o grze */
-            UstawPoziom(Poziom.Meduim); /** Ustawia poziom trudności na średni */
-            text_poziom_Label.Hide();   /** Ukrywa etykietę z poziomem */
-            panelGry.Hide();/** Ukrywa panel gry przed rozpoczęciem poziomu */
+            /** Ukrywa panel z informacjami o grze */
+            panelPodczasgry.Hide();
+            /** Ustawia poziom trudności na średni */
+            UstawPoziom(Poziom.Meduim);
+            /** Ukrywa etykietę z poziomem */
+            text_poziom_Label.Hide();
+            /** Ukrywa panel gry przed rozpoczęciem poziomu */
+            panelGry.Hide();
             /** Wyświetla komunikat informujący o ustawieniu poziomu oraz czasie na zapamiętanie labiryntu */
             MessageBox.Show("Ustawiono poziom: Średni\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             /** Wyświetla panel gry oraz inne elementy interfejsu */
@@ -435,12 +516,16 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void hardLevel_Click(object sender, EventArgs e)
+        public void hardLevel_Click(object sender, EventArgs e)
         {
-            panelPodczasgry.Hide(); /** Ukrywa panel z informacjami o grze */
-            UstawPoziom(Poziom.Hard);   /** Ustawia poziom trudności na trudny */
-            text_poziom_Label.Hide();   /** Ukrywa etykietę z poziomem */
-            panelGry.Hide();    /** Ukrywa panel gry przed rozpoczęciem poziomu */
+            /** Ukrywa panel z informacjami o grze */
+            panelPodczasgry.Hide();
+            /** Ustawia poziom trudności na trudny */
+            UstawPoziom(Poziom.Hard);
+            /** Ukrywa etykietę z poziomem */
+            text_poziom_Label.Hide();
+            /** Ukrywa panel gry przed rozpoczęciem poziomu */
+            panelGry.Hide();
             /** Wyświetla komunikat informujący o ustawieniu poziomu oraz czasie na zapamiętanie labiryntu */
             MessageBox.Show("Ustawiono poziom: Trudny\nMasz 30 sekund na zapamiętanie układu labiryntu. Po tym czasie rozpocznie się poziom.\", \"Zapamiętaj Labirynt");
             /** Wyświetla panel gry oraz inne elementy interfejsu */
@@ -458,18 +543,23 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void timerLevel_Tick(object sender, EventArgs e)
+        public void timerLevel_Tick(object sender, EventArgs e)
         {
-            pozostalyCzas--;    /** Zmniejsza pozostały czas o 1 sekundę */
-            // Aktualizacja etykiety
-            czasLabel.Text = $"Pozostały czas: {pozostalyCzas}s";   /** Aktualizuje etykietę z pozostałym czasem */
-            // Sprawdzenie, czy czas się skończył
-            if (pozostalyCzas <= 0) /** Sprawdza, czy pozostały czas wynosi 0 lub mniej */
+            /** Zmniejsza pozostały czas o 1 sekundę */
+            pozostalyCzas--;
+            /** Aktualizuje etykietę z pozostałym czasem */
+            czasLabel.Text = $"Pozostały czas: {pozostalyCzas}s";
+            /** Sprawdza, czy pozostały czas wynosi 0 lub mniej */
+            if (pozostalyCzas <= 0)
             {
-                timerLevel.Stop();  /** Zatrzymuje timer poziomu */
-                MessageBox.Show("Czas minął! Przegrałeś.", "Koniec gry");   /** Wyświetla komunikat o upływie czasu i przegranej */
-                UkryjZadanie(); /** Ukrywa zadanie matematyczne, jeśli jest wyświetlane */
-                RestartujPoziom();  /** Restartuje poziom */
+                /** Zatrzymuje timer poziomu */
+                timerLevel.Stop();
+                /** Wyświetla komunikat o upływie czasu i przegranej */
+                MessageBox.Show("Czas minął! Przegrałeś.", "Koniec gry");
+                /** Ukrywa zadanie matematyczne, jeśli jest wyświetlane */
+                UkryjZadanie();
+                /** Restartuje poziom */
+                RestartujPoziom();
             }
         }
 
@@ -477,15 +567,18 @@ namespace Labirynty{
         * Restartuje aktualny poziom, przywracając go do stanu początkowego. 
         * Zatrzymuje timer poziomu i przywraca checkpointy.
         */
-        private void RestartujPoziom()
+        public void RestartujPoziom()
         {
-            if (timerLevel != null) /** Sprawdza, czy timer poziomu jest aktywny, a jeśli tak, zatrzymuje go i zwalnia zasoby */
+            /** Sprawdza, czy timer poziomu jest aktywny, a jeśli tak, zatrzymuje go i zwalnia zasoby */
+            if (timerLevel != null)
             {
                 timerLevel.Stop();
                 timerLevel.Dispose();
             }
-            poziom.PrzywrocCheckpointy(); /** Przywraca checkpointy do stanu początkowego */
-            UstawPoziom(poziom); /** Ustawia aktualny poziom do stanu początkowego */
+            /** Przywraca checkpointy do stanu początkowego */
+            poziom.PrzywrocCheckpointy();
+            /** Ustawia aktualny poziom do stanu początkowego */
+            UstawPoziom(poziom);
         }
 
         /** 
@@ -495,18 +588,21 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void timerShow_Tick(object sender, EventArgs e)
+        public void timerShow_Tick(object sender, EventArgs e)
         {
-            czasPrezentacji--;  /** Zmniejsza czas prezentacji o 1 sekundę */
-
-            if (czasPrezentacji <= 0)   /** Sprawdza, czy czas prezentacji wynosi 0 lub mniej */
+            /** Zmniejsza czas prezentacji o 1 sekundę */
+            czasPrezentacji--;
+            /** Sprawdza, czy czas prezentacji wynosi 0 lub mniej */
+            if (czasPrezentacji <= 0)
             {
-                timerShow.Stop();   /** Zatrzymuje timer prezentacji */
-                czasLabel.Text = $"Pozostały czas: {poziom.TimeLevel}s";    /** Ustawia etykietę z pozostałym czasem na czas poziomu */
-
-                // Po zakończeniu prezentacji przywróć gracza i rozpocznij poziom
-                gracz = new Gracz(poziom.Start.X, poziom.Start.Y);  /** Przywraca gracza do pozycji startowej poziomu */
-                timerLevel = new System.Windows.Forms.Timer();  /** Inicjalizuje nowy timer poziomu */
+                /** Zatrzymuje timer prezentacji */
+                timerShow.Stop();
+                /** Ustawia etykietę z pozostałym czasem na czas poziomu */
+                czasLabel.Text = $"Pozostały czas: {poziom.TimeLevel}s";
+                /** Przywraca gracza do pozycji startowej poziomu */
+                gracz = new Gracz(poziom.Start.X, poziom.Start.Y);
+                /** Inicjalizuje nowy timer poziomu */
+                timerLevel = new System.Windows.Forms.Timer();
                 timerLevel.Interval = 1000; // 1 sekunda
                 timerLevel.Tick += timerLevel_Tick;
                 pozostalyCzas = poziom.TimeLevel;
@@ -514,7 +610,8 @@ namespace Labirynty{
             }
             else
             {
-                czasLabel.Text = $"Czas na zapamiętanie: {czasPrezentacji}s";   /** Aktualizuje etykietę z czasem na zapamiętanie */
+                /** Aktualizuje etykietę z czasem na zapamiętanie */
+                czasLabel.Text = $"Czas na zapamiętanie: {czasPrezentacji}s";
             }
             panelGry.Invalidate(); // Odśwież panel
         }
@@ -526,15 +623,22 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void returnLevel_Click(object sender, EventArgs e)
+        public void returnLevel_Click(object sender, EventArgs e)
         {
-            panelGry.Hide();    /** Ukrywa panel gry */
-            PanelSterowanieMenuMain.Hide(); /** Ukrywa panel sterowania */
-            PanelPoziomy.Show();    /** Wyświetla panel wyboru poziomu */
-            czasPrezentacji = 0;    /** Resetuje czas prezentacji do zera */
-            pozostalyCzas = 0;  /** Resetuje pozostały czas do zera */
-            text_poziom_Label.Hide();   /** Ukrywa etykietę z poziomem */
-            czasLabel.Hide();   /** Ukrywa etykietę z czasem */
+            /** Ukrywa panel gry */
+            panelGry.Hide();
+            /** Ukrywa panel sterowania */
+            PanelSterowanieMenuMain.Hide();
+            /** Wyświetla panel wyboru poziomu */
+            PanelPoziomy.Show();
+            /** Resetuje czas prezentacji do zera */
+            czasPrezentacji = 0;
+            /** Resetuje pozostały czas do zera */
+            pozostalyCzas = 0;
+            /** Ukrywa etykietę z poziomem */
+            text_poziom_Label.Hide();
+            /** Ukrywa etykietę z czasem */
+            czasLabel.Hide();
         }
 
         /** 
@@ -543,22 +647,28 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void pauseButton_Click(object sender, EventArgs e)
+        public void pauseButton_Click(object sender, EventArgs e)
         {
-            if (graZatrzymana)  /** Sprawdza, czy gra jest aktualnie wstrzymana */
+            /** Sprawdza, czy gra jest aktualnie wstrzymana */
+            if (graZatrzymana)
             {
-                // Wznawiamy grę
-                WznowWlasciwyTimer();   /** Wznawiamy grę, jeśli była wstrzymana */
-                pauseButton.Text = "Pauza"; /** Zmienia tekst przycisku na "Pauza" */
-                graZatrzymana = false;  /** Ustawia flagę wstrzymania na false */
+                /** Wznawiamy grę, jeśli była wstrzymana */
+                WznowWlasciwyTimer();
+                /** Zmienia tekst przycisku na "Pauza" */
+                pauseButton.Text = "Pauza";
+                /** Ustawia flagę wstrzymania na false */
+                graZatrzymana = false;
             }
             else
             {
                 /** Zatrzymujemy grę, jeśli nie była wstrzymana */
                 ZatrzymajWszystkieTimery(); // Zatrzymaj liczniki czasu
-                MessageBox.Show("Gra jest wstrzymana. Kliknij przycisk 'Wznów', aby kontynuować.", "Pauza");    /** Wyświetla komunikat informujący o wstrzymaniu gry */
-                pauseButton.Text = "Wznów"; /** Zmienia tekst przycisku na "Wznów" */
-                graZatrzymana = true;   /** Ustawia flagę wstrzymania na true */
+                /** Wyświetla komunikat informujący o wstrzymaniu gry */
+                MessageBox.Show("Gra jest wstrzymana. Kliknij przycisk 'Wznów', aby kontynuować.", "Pauza");
+                /** Zmienia tekst przycisku na "Wznów" */
+                pauseButton.Text = "Wznów";
+                /** Ustawia flagę wstrzymania na true */
+                graZatrzymana = true;
             }
         }
 
@@ -568,10 +678,12 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void returnLevel2_Click(object sender, EventArgs e)
+        public void returnLevel2_Click(object sender, EventArgs e)
         {
-            PanelMenuMain.Hide();   /** Ukrywa główne menu */
-            PanelPoziomy.Show();    /** Wyświetla panel wyboru poziomu */
+            /** Ukrywa główne menu */
+            PanelMenuMain.Hide();
+            /** Wyświetla panel wyboru poziomu */
+            PanelPoziomy.Show();
         }
 
         /** 
@@ -580,19 +692,22 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void exitButton2_Click(object sender, EventArgs e)
+        public void exitButton2_Click(object sender, EventArgs e)
         {
-            Application.Exit(); /** Zamyka aplikację */
+            /** Zamyka aplikację */
+            Application.Exit();
         }
 
         /** 
         * Zatrzymuje wszystkie aktywne timery w grze.
         * Sprawdza, czy timery są zainicjalizowane i aktywne, a następnie je zatrzymuje.
         */
-        private void ZatrzymajWszystkieTimery()
+        public void ZatrzymajWszystkieTimery()
         {
-            if (timerShow != null && timerShow.Enabled) timerShow.Stop();   /** Zatrzymuje timer prezentacji, jeśli jest aktywny */
-            if (timerLevel != null && timerLevel.Enabled) timerLevel.Stop();    /** Zatrzymuje timer poziomu, jeśli jest aktywny */
+            /** Zatrzymuje timer prezentacji, jeśli jest aktywny */
+            if (timerShow != null && timerShow.Enabled) timerShow.Stop();
+            /** Zatrzymuje timer poziomu, jeśli jest aktywny */
+            if (timerLevel != null && timerLevel.Enabled) timerLevel.Stop();
         }
 
         /** 
@@ -601,10 +716,12 @@ namespace Labirynty{
         * W przeciwnym razie, jeśli pozostały czas poziomu jest większy niż 0, 
         * wznawia timer poziomu.
         */
-        private void WznowWlasciwyTimer()
+        public void WznowWlasciwyTimer()
         {
-            if (czasPrezentacji > 0 && timerShow != null) timerShow.Start(); /** Wznawia timer prezentacji, jeśli czas prezentacji jest większy niż 0 i timer jest zainicjalizowany. */
-            else if (pozostalyCzas > 0 && timerLevel != null) timerLevel.Start(); /** Wznawia timer poziomu, jeśli pozostały czas jest większy niż 0  i timer jest zainicjalizowany */
+            /** Wznawia timer prezentacji, jeśli czas prezentacji jest większy niż 0 i timer jest zainicjalizowany. */
+            if (czasPrezentacji > 0 && timerShow != null) timerShow.Start();
+            /** Wznawia timer poziomu, jeśli pozostały czas jest większy niż 0  i timer jest zainicjalizowany */
+            else if (pozostalyCzas > 0 && timerLevel != null) timerLevel.Start();
         }
 
         /** 
@@ -613,15 +730,22 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void controlsButton2_Click(object sender, EventArgs e)
+        public void controlsButton2_Click(object sender, EventArgs e)
         {
-            ZatrzymajWszystkieTimery(); /** Zatrzymuje wszystkie aktywne timery w grze */
-            panelGry.Hide();    /** Ukrywa panel gry */
-            PanelMenuMain.Hide();   /** Ukrywa główne menu */
-            PanelPoziomy.Hide();    /** Ukrywa panel wyboru poziomu */
-            czasLabel.Hide();   /** Ukrywa etykietę z czasem */
-            text_poziom_Label.Hide();   /** Ukrywa etykietę z poziomem */
-            PanelSterowanieGra.Show();  /** Wyświetla panel sterowania gry */
+            /** Zatrzymuje wszystkie aktywne timery w grze */
+            ZatrzymajWszystkieTimery();
+            /** Ukrywa panel gry */
+            panelGry.Hide();
+            /** Ukrywa główne menu */
+            PanelMenuMain.Hide();
+            /** Ukrywa panel wyboru poziomu */
+            PanelPoziomy.Hide();
+            /** Ukrywa etykietę z czasem */
+            czasLabel.Hide();
+            /** Ukrywa etykietę z poziomem */
+            text_poziom_Label.Hide();
+            /** Wyświetla panel sterowania gry */
+            PanelSterowanieGra.Show();
         }
 
         /** 
@@ -630,10 +754,12 @@ namespace Labirynty{
         * @param sender Obiekt, który wywołał zdarzenie.
         * @param e Argumenty zdarzenia.
         */
-        private void returnMenu3_Click(object sender, EventArgs e)
+        public void returnMenu3_Click(object sender, EventArgs e)
         {
-            PanelSterowanieGra.Hide();  /** Ukrywa panel sterowania gry */
-            PanelPoziomy.Show();    /** Wyświetla panel wyboru poziomu */
+            /** Ukrywa panel sterowania gry */
+            PanelSterowanieGra.Hide();
+            /** Wyświetla panel wyboru poziomu */
+            PanelPoziomy.Show();
         }
     }
 }

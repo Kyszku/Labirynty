@@ -1,13 +1,23 @@
-﻿namespace Labirynty{
-    public class Poziom{
-        public int[,] Macierz { get; set; } /** Macierz definiująca poziom labiryntu */
-        public (int X, int Y) Start { get; set; } /** Punkt startowy w labiryncie */
-        public (int X, int Y) End { get; set; } /** Punkt końcowy w labiryncie */
-        public Dictionary<(int X, int Y), bool> Checkpoints { get; private set; } /** Słownik checkpointów i ich stanu (odwiedzony/nieodwiedzony) */
-        private readonly Dictionary<(int X, int Y), bool> DomyslneCheckpoints; /** Domyślne checkpointy */
-        public int TimeLevel { get; private set; } /** Czas na ukończenie poziomu w sekundach */
-        public int TimeShow { get; private set; } /** Czas na zapamiętanie układu labiryntu w sekundach */
-        public string NameLevel {get; private set; } /** Nazwa poziomu */
+﻿namespace Labirynty
+{
+    public class Poziom
+    {
+        /** Macierz definiująca poziom labiryntu */
+        public int[,] Macierz { get; set; }
+        /** Punkt startowy w labiryncie */
+        public (int X, int Y) Start { get; set; }
+        /** Punkt końcowy w labiryncie */
+        public (int X, int Y) End { get; set; }
+        /** Słownik checkpointów i ich stanu (odwiedzony/nieodwiedzony) */
+        public Dictionary<(int X, int Y), bool> Checkpoints { get; private set; }
+        /** Domyślne checkpointy */
+        private readonly Dictionary<(int X, int Y), bool> DomyslneCheckpoints;
+        /** Czas na ukończenie poziomu w sekundach */
+        public int TimeLevel { get; private set; }
+        /** Czas na zapamiętanie układu labiryntu w sekundach */
+        public int TimeShow { get; private set; }
+        /** Nazwa poziomu */
+        public string NameLevel { get; private set; }
         /* kolumna w maicerzy to wiersz labiryntu
         0,1,2,3,4,5...n
         1
@@ -28,11 +38,11 @@
         {1, 1, 0, 0, 0},
         {0, 0, 0, 1, 0}
         },
-            start: (0,0),
-            end:(3,3),
+            start: (0, 0),
+            end: (3, 3),
             timeLevel: 10,
             timeShow: 10,
-            checkpoints: new List<(int X, int Y)> {(2, 2)},
+            checkpoints: new List<(int X, int Y)> { (2, 2) },
             namelevel: "Latwy"
         );
 
@@ -76,7 +86,7 @@
          * Konstruktor klasy Poziom 
          * @param macierzpoziomu - macierz definiująca poziom
          * @param start - punkt startowy
-         * * @param end - punkt końcowy
+         * @param end - punkt końcowy
          * @param timeLevel - czas na ukończenie poziomu
          * @param timeShow - czas na zapamiętanie układu labiryntu
          * @param checkpoints - lista checkpointów
@@ -92,17 +102,18 @@
             NameLevel = namelevel;  // Ustawienie nazwy poziomu
             DomyslneCheckpoints = checkpoints.ToDictionary(cp => cp, cp => false);  // Tworzenie słownika checkpointów z zawartością (nieodwiedzony)
             PrzywrocCheckpointy();
-            
+
         }
-        // Przywraca checkpointy do stanu domyślnego
         /** 
-        * Przywraca checkpointy do stanu domyślnego 
-        * (ustawia wszystkie checkpointy jako nieodwiedzone).
+        * Przywraca checkpointy do stanu domyślnego (ustawia wszystkie checkpointy jako nieodwiedzone).
         */
-        public void PrzywrocCheckpointy(){
+        public void PrzywrocCheckpointy()
+        {
             Checkpoints = new Dictionary<(int X, int Y), bool>(DomyslneCheckpoints);
         }
-        public int Szerokosc => Macierz.GetLength(0);   /** Szerokość labiryntu (liczba kolumn w macierzy) */
-        public int Wysokosc => Macierz.GetLength(1);    /** Wysokość labiryntu (liczba wierszy w macierzy) */
+        /** Szerokość labiryntu (liczba kolumn w macierzy) */
+        public int Szerokosc => Macierz.GetLength(0);
+        /** Wysokość labiryntu (liczba wierszy w macierzy) */
+        public int Wysokosc => Macierz.GetLength(1);
     }
 }

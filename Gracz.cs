@@ -2,8 +2,10 @@
 {
     public class Gracz
     {
-        public int X { get; set; }  /** Współrzędna X gracza w labiryncie */
-        public int Y { get; set; }  /** Współrzędna Y gracza w labiryncie */
+        /** Współrzędna X gracza w labiryncie */
+        public int X { get; set; }
+        /** Współrzędna Y gracza w labiryncie */
+        public int Y { get; set; }
         /** 
          * Konstruktor klasy Gracz 
          * @param x - początkowa współrzędna X gracza
@@ -22,7 +24,8 @@
          */
         public void Rusz(Keys key, int maksX, int maksY)
         {
-            switch (key){
+            switch (key)
+            {
                 case Keys.W:
                     if (Y > 0) Y--; // Przesunięcie w górę
                     break;
