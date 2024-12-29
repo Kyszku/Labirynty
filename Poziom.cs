@@ -29,7 +29,7 @@
         n       
         */
 
-        /** latwy poziom - mala macierz z mala liczba scian */
+        /** Latwy poziom - mala macierz z mala liczba scian */
         public static Poziom Easy = new Poziom(new int[,]
         {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -52,7 +52,7 @@
             namelevel: "Łatwy"
         );
 
-        /** sredni poziom - srednia macierz z wieksza iloscia scian */
+        /** Sredni poziom - Srednia macierz z wieksza iloscia scian */
         public static Poziom Meduim = new Poziom(new int[,]
         {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -104,7 +104,6 @@
             {1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1},
             {1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-
         },
             start: (19, 1),
             end: (16, 7),
