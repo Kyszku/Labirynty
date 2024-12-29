@@ -2,41 +2,41 @@
 {
     public class Gracz
     {
-        /** Współrzędna X gracza w labiryncie */
+        /** Wspolrzedna X gracza w labiryncie */
         public int X { get; set; }
-        /** Współrzędna Y gracza w labiryncie */
+        /** Wspolrzedna Y gracza w labiryncie */
         public int Y { get; set; }
         /** 
          * Konstruktor klasy Gracz 
-         * @param x - początkowa współrzędna X gracza
-         * @param y - początkowa współrzędna Y gracza
+         * @param x - poczatkowa wspolrzedna X gracza
+         * @param y - poczatkowa wspolrzedna Y gracza
          */
         public Gracz(int x, int y)
         {
-            X = x; // Ustawienie współrzędnej X
-            Y = y; // Ustawienie współrzędnej Y
+            X = x; // Ustawienie wspolrzednej X
+            Y = y; // Ustawienie wspolrzednej Y
         }
         /** 
          * Metoda do przesuwania gracza w labiryncie 
-         * @param key - klawisz, który został naciśnięty
-         * @param maksX - maksymalna wartość współrzędnej X
-         * @param maksY - maksymalna wartość współrzędnej Y
+         * @param key - klawisz, ktory zostal nacisniety
+         * @param maksX - maksymalna wartosc wspolrzednej X
+         * @param maksY - maksymalna wartosc wspolrzednej Y
          */
         public void Rusz(Keys key, int maksX, int maksY)
         {
             switch (key)
             {
                 case Keys.W:
-                    if (Y > 0) Y--; // Przesunięcie w górę
+                    if (Y > 0) Y--; // Przesuniecie w gore
                     break;
                 case Keys.S:
-                    if (Y < maksY - 1) Y++; // Przesunięcie w dół
+                    if (Y < maksY - 1) Y++; // Przesuniecie w dol
                     break;
                 case Keys.A:
-                    if (X > 0) X--; // Przesunięcie w lewo
+                    if (X > 0) X--; // Przesuniecie w lewo
                     break;
                 case Keys.D:
-                    if (X < maksX - 1) X++; // Przesunięcie w prawo
+                    if (X < maksX - 1) X++; // Przesuniecie w prawo
                     break;
             }
         }

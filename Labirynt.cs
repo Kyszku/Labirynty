@@ -4,14 +4,14 @@
     {
         /** Reprezentacja labiryntu w postaci dwuwymiarowej tablicy */
         public int[,] Siatka { get; private set; }
-        /** Szerokość labiryntu */
+        /** Szerokosc labiryntu */
         public int Szerokosc { get; private set; }
-        /** Wysokość labiryntu */
+        /** Wysokosc labiryntu */
         public int Wysokosc { get; private set; }
         /** 
          * Konstruktor klasy Labirynt 
-         * @param szerokosc - szerokość labiryntu
-         * @param wysokosc - wysokość labiryntu
+         * @param szerokosc - szerokosc labiryntu
+         * @param wysokosc - wysokosc labiryntu
          */
         public Labirynt(int szerokosc, int wysokosc)
         {
@@ -20,21 +20,21 @@
             Siatka = new int[szerokosc, wysokosc];
         }
         /** 
-         * Metoda generująca labirynt na podstawie podanej macierzy 
-         * @param macierz - macierz definiująca układ labiryntu
+         * Metoda generujaca labirynt na podstawie podanej macierzy 
+         * @param macierz - macierz definiujaca uklad labiryntu
          */
         public void GenerujLabirynt(int[,] macierz)
         {
             Siatka = macierz; //Ustawienie siatki na macierz
         }
         /** 
-         * Metoda rysująca labirynt na obiekcie Graphics 
+         * Metoda rysujaca labirynt na obiekcie Graphics 
          * @param g - obiekt Graphics do rysowania
-         * @param szerokoscKomorki - szerokość pojedynczej komórki labiryntu
-         * @param wysokoscKomorki - wysokość pojedynczej komórki labiryntu
+         * @param szerokoscKomorki - szerokosc pojedynczej komorki labiryntu
+         * @param wysokoscKomorki - wysokosc pojedynczej komorki labiryntu
          * @param start - punkt startowy w labiryncie
-         * @param end - punkt końcowy w labiryncie
-         * @param checkpoints - słownik checkpointów i ich stanu
+         * @param end - punkt koncowy w labiryncie
+         * @param checkpoints - slownik checkpointow i ich stanu
          */
         public void RysujLabirynt(Graphics g, int szerokoscKomorki, int wysokoscKomorki, (int X, int Y) start, (int X, int Y) end, Dictionary<(int X, int Y), bool> checkpoints)
         {
@@ -42,19 +42,19 @@
             {
                 for (int y = 0; y < Wysokosc; y++)
                 {
-                    if (Siatka[x, y] == 1) /* Ściana */
+                    if (Siatka[x, y] == 1) /* sciana */
                     {
                         g.FillRectangle(Brushes.Black, x * szerokoscKomorki, y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
                     }
-                    else /* Pusta przestrzeń */
+                    else /* Pusta przestrzen */
                     {
                         g.FillRectangle(Brushes.White, x * szerokoscKomorki, y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
                     }
                 }
             }
-            // Rysowanie punktu początkowego
+            // Rysowanie punktu poczatkowego
             g.FillRectangle(Brushes.Green, start.X * szerokoscKomorki, start.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
-            // Rysowanie punktu końcowego
+            // Rysowanie punktu koncowego
             g.FillRectangle(Brushes.Red, end.X * szerokoscKomorki, end.Y * wysokoscKomorki, szerokoscKomorki, wysokoscKomorki);
             foreach (var checkpoint in checkpoints)
             {

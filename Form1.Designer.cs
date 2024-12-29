@@ -47,6 +47,7 @@
             textBoxZadanie = new TextBox();
             labelZadanie = new Label();
             PanelSterowanieMenuMain = new Panel();
+            label3 = new Label();
             returnMenu2 = new Button();
             textSterowanie = new Label();
             czasLabel = new Label();
@@ -69,10 +70,10 @@
             controlsButton2 = new Button();
             exitButton2 = new Button();
             PanelSterowanieGra = new Panel();
+            label2 = new Label();
             returnMenu3 = new Button();
             label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
+            timerDelay = new System.Windows.Forms.Timer(components);
             panelGry.SuspendLayout();
             panelZadanie.SuspendLayout();
             PanelSterowanieMenuMain.SuspendLayout();
@@ -143,6 +144,15 @@
             PanelSterowanieMenuMain.Size = new Size(465, 410);
             PanelSterowanieMenuMain.TabIndex = 8;
             PanelSterowanieMenuMain.Visible = false;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(42, 146);
+            label3.Name = "label3";
+            label3.Size = new Size(379, 75);
+            label3.TabIndex = 12;
+            label3.Text = resources.GetString("label3.Text");
             // 
             // returnMenu2
             // 
@@ -365,6 +375,15 @@
             PanelSterowanieGra.TabIndex = 11;
             PanelSterowanieGra.Visible = false;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 135);
+            label2.Name = "label2";
+            label2.Size = new Size(379, 75);
+            label2.TabIndex = 11;
+            label2.Text = resources.GetString("label2.Text");
+            // 
             // returnMenu3
             // 
             returnMenu3.Font = new Font("Segoe UI", 7F);
@@ -386,23 +405,10 @@
             label1.Text = "Sterowanie:\r\nW - Przesunięcie gracza w góre\r\nS - Przesunięcie gracza w dół\r\nA - Przesunięcie gracza w lewo\r\nD - Przesunięcie gracza w prawo";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // timerDelay
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 135);
-            label2.Name = "label2";
-            label2.Size = new Size(379, 60);
-            label2.TabIndex = 11;
-            label2.Text = resources.GetString("label2.Text");
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(42, 146);
-            label3.Name = "label3";
-            label3.Size = new Size(379, 60);
-            label3.TabIndex = 12;
-            label3.Text = resources.GetString("label3.Text");
+            timerDelay.Interval = 1000;
+            timerDelay.Tick += timerDelay_Tick;
             // 
             // Form1
             // 
@@ -434,5 +440,7 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
+        private System.Windows.Forms.Timer timerDelay;
     }
 }
